@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0B3D91">
+<meta name="description" content="Thrivelink Health Limited Services — Health consultancy, medical supplies, screenings, linkages, procurement support, and emergency care across Nigeria.">
+<title>Our Services — Thrivelink Health Limited</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%230B3D91' width='100' height='100' rx='20'/%3E%3Cpath fill='%2327AE60' d='M50 15 L55 35 L75 35 L60 50 L65 70 L50 58 L35 70 L40 50 L25 35 L45 35 Z'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo">
+      <div class="logo-mark"><i class="fas fa-plus"></i></div>
+      <div class="logo-text-group">
+        <div class="logo-name">Thrivelink</div>
+        <div class="logo-tag">Health Limited</div>
+      </div>
+    </a>
+    <nav class="header-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="services.html" class="nav-link active">Services</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="app.html" class="btn btn-green btn-sm"><i class="fas fa-mobile-alt"></i> Open App</a>
+    </nav>
+    <button class="mobile-menu-btn" onclick="toggleMobileNav()"><i class="fas fa-bars"></i></button>
+  </div>
+</header>
+
+<div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileNav()"></div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="about.html" class="nav-link">About</a>
+  <a href="services.html" class="nav-link" style="color:var(--deep-blue);font-weight:700;">Services</a>
+  <a href="contact.html" class="nav-link">Contact</a>
+  <a href="app.html" class="btn btn-green"><i class="fas fa-mobile-alt"></i> Open App</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" style="min-height:50vh;padding:120px 24px 60px;">
+  <div class="hero-inner">
+    <div class="hero-badge"><i class="fas fa-briefcase-medical"></i> What We Do</div>
+    <h1>Our <span class="highlight">Services</span></h1>
+    <p>Comprehensive health solutions for individuals, organizations, and institutions across Nigeria.</p>
+  </div>
+</section>
+
+<!-- SERVICES GRID -->
+<section class="section">
+  <div class="section-inner">
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-user-md"></i></div>
+        <h3>Health Consultancy & Advisory</h3>
+        <p>Wellness programs, medical emergency solutions, health education, and corporate health talks tailored to your organization's specific needs. We help businesses and institutions build healthier workplaces.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-truck-medical"></i></div>
+        <h3>Medical Supplies & Consumables</h3>
+        <p>Distribution of quality health products, PPE, and medical equipment to hospitals, clinics, and organizations nationwide. We ensure reliable supply chains for critical healthcare materials.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-microscope"></i></div>
+        <h3>Health Screenings & Outreach</h3>
+        <p>Community health checks, workplace wellness programs, and preventive health campaigns. We bring healthcare to the people who need it most, right where they are.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-network-wired"></i></div>
+        <h3>Linkages & Referrals</h3>
+        <p>Connect clients to certified hospitals, diagnostic labs, and specialist practitioners through our verified provider network. We make sure you get the right care at the right place.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-handshake"></i></div>
+        <h3>Procurement Support</h3>
+        <p>Enlistment and supply to institutions, NGOs, and government bodies with transparent procurement processes. We help organizations access quality health products at competitive rates.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-ambulance"></i></div>
+        <h3>Emergency Response Coordination</h3>
+        <p>Rapid connection to nearest available hospitals and health workers during medical emergencies, powered by real-time location data. Every second counts in an emergency.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM SECTION -->
+<section class="section platform-section" id="platform">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="badge">Our Platform</div>
+      <h2>The Thrivelink Platform</h2>
+      <p>More than a service company — we are building the infrastructure for connected healthcare in Nigeria</p>
+    </div>
+    <div class="platform-grid">
+      <div class="platform-features">
+        <div class="platform-feature">
+          <i class="fas fa-hospital"></i>
+          <div>
+            <h4>For Hospitals & Clinics</h4>
+            <p>Create patient records, search cross-facility histories by NIN, and add append-only clinical remarks. Continuity of care, finally solved.</p>
+          </div>
+        </div>
+        <div class="platform-feature">
+          <i class="fas fa-user"></i>
+          <div>
+            <h4>For Patients</h4>
+            <p>No account creation needed. Access your medical history via OTP using the phone or email your hospital has on file. View records, update contact details securely.</p>
+          </div>
+        </div>
+        <div class="platform-feature">
+          <i class="fas fa-user-md"></i>
+          <div>
+            <h4>For Health Workers</h4>
+            <p>Register with your medical license. Get verified and appear in emergency provider searches. Be found when patients need you most.</p>
+          </div>
+        </div>
+        <div class="platform-feature">
+          <i class="fas fa-shield-alt"></i>
+          <div>
+            <h4>Privacy by Design</h4>
+            <p>Raw NINs are never stored. All identifiers are hashed. Clinical data is append-only and immutable. NDPR compliant from day one.</p>
+          </div>
+        </div>
+        <div class="platform-feature">
+          <i class="fas fa-map-marker-alt"></i>
+          <div>
+            <h4>Emergency Access</h4>
+            <p>Find the nearest hospital or verified health worker in seconds. Location-aware search with platform-registered providers prioritized.</p>
+          </div>
+        </div>
+      </div>
+      <div class="platform-visual">
+        <h3>Ready to Transform Healthcare?</h3>
+        <p>The Thrivelink platform is a Progressive Web App — install it on your phone, tablet, or desktop. It works offline, syncs when connected, and puts healthcare continuity in your pocket.</p>
+        <div class="platform-cta">
+          <a href="app.html" class="btn btn-green"><i class="fas fa-download"></i> Open App</a>
+          <a href="contact.html" class="btn" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);"><i class="fas fa-envelope"></i> Contact Us</a>
+        </div>
+        <p style="font-size:13px;opacity:0.7;margin-top:16px;"><i class="fas fa-mobile-alt"></i> Available on Android, iOS, and all modern browsers</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="background:var(--off-white);text-align:center;">
+  <div class="section-inner">
+    <h2 style="font-size:28px;font-weight:800;margin-bottom:12px;color:var(--deep-blue);">Need Our Services?</h2>
+    <p style="font-size:16px;color:var(--text-light);margin-bottom:24px;">Reach out to discuss how Thrivelink can support your healthcare needs.</p>
+    <a href="contact.html" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Get in Touch</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Thrivelink Health Limited</div>
+        <p>Connecting Health, Empowering Lives. A Nigerian healthcare company bridging gaps in healthcare delivery through technology, partnerships, and innovation.</p>
+        <div class="footer-tagline"><i class="fas fa-quote-left"></i> Trust & Transparency in Every Interaction</div>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <a href="app.html">Open App</a>
+        <a href="services.html#platform">How It Works</a>
+        <a href="about.html">For Providers</a>
+        <a href="about.html">For Patients</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#" onclick="showToast('Privacy Policy page coming soon','info');return false;">Privacy Policy</a>
+        <a href="#" onclick="showToast('Terms of Service page coming soon','info');return false;">Terms of Service</a>
+        <a href="#" onclick="showToast('NDPR Compliance page coming soon','info');return false;">NDPR Compliance</a>
+        <a href="#" onclick="showToast('Cookie Policy page coming soon','info');return false;">Cookie Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Thrivelink Health Limited. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#" onclick="showToast('Privacy Policy page coming soon','info');return false;">Privacy</a>
+        <a href="#" onclick="showToast('Terms of Service page coming soon','info');return false;">Terms</a>
+        <a href="#" onclick="showToast('NDPR Compliance page coming soon','info');return false;">NDPR</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button class="fab-chat" onclick="toggleChat()" title="Chat with Support"><i class="fas fa-comment-dots"></i></button>
+<div class="chat-widget" id="chatWidget">
+  <div class="chat-header">
+    <i class="fas fa-robot"></i>
+    <div><h4>Thrivelink Support</h4><p>Typically replies instantly</p></div>
+    <button class="ch-close" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="chat-msg bot">Hello! Welcome to Thrivelink Health. How can I assist you today?</div>
+  </div>
+  <div class="chat-footer">
+    <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChatMessage()">
+    <button onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
