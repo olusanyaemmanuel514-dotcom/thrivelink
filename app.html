@@ -1,440 +1,1023 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0B3D91">
-<meta name="description" content="Thrivelink Health - Cross-facility patient medical record system">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Thrivelink">
-<title>Thrivelink Health</title>
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="app.css">
-<!-- Icons -->
-<link rel="icon" type="image/png" sizes="72x72" href="icons/icon-72x72.png">
-<link rel="icon" type="image/png" sizes="96x96" href="icons/icon-96x96.png">
-<link rel="icon" type="image/png" sizes="128x128" href="icons/icon-128x128.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
-<link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72x72.png">
-<link rel="apple-touch-icon" sizes="96x96" href="icons/icon-96x96.png">
-<link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128x128.png">
-<link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
-<link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192x192.png">
-<link rel="apple-touch-icon" sizes="384x384" href="icons/icon-384x384.png">
-<link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512x512.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0B3D91">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Thrivelink Health</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="icons/icon.png">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="app.css">
 </head>
 <body>
-<div class="app">
+    <!-- Toast -->
+    <div id="toast" class="toast"><span id="toast-msg"></span></div>
 
-<!-- Splash Screen -->
-<div class="splash" id="splash">
-  <div class="splash-logo">
-    <svg viewBox="0 0 100 100" width="50" height="50">
-      <rect width="100" height="100" rx="20" fill="#0B3D91"/>
-      <path d="M50 25 L50 75 M25 50 L75 50" stroke="white" stroke-width="12" stroke-linecap="round"/>
-    </svg>
-  </div>
-  <h1>Thrivelink Health</h1>
-  <p>Connecting Health, Empowering Lives</p>
-</div>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
 
-<!-- Role Selection -->
-<div class="screen active" id="screen-role-select">
-  <div class="welcome-text">
-    <h1>Welcome</h1>
-    <p>Select how you want to continue</p>
-  </div>
-  <div class="role-grid">
-    <div class="role-card" onclick="showScreen('screen-hospital-auth')">
-      <div class="role-icon">
-        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg>
-      </div>
-      <h3>Hospital / Clinic</h3>
-      <p>Manage patient records</p>
+    <!-- ==================== SPLASH SCREEN ==================== -->
+    <div id="screen-splash" class="screen active">
+        <div class="splash-content">
+            <div class="splash-logo">
+                <img src="icons/icon.png" alt="Thrivelink" width="80" height="80" style="border-radius:16px;">
+            </div>
+            <h1>Thrivelink</h1>
+            <p class="splash-tagline">Health Limited</p>
+            <div class="splash-loader">
+                <div class="splash-bar"></div>
+            </div>
+            <p class="splash-version">v2.0 MVP</p>
+            <p class="splash-credit">Made with <span class="heart">&#10084;</span> by <a href="https://emltechstudio.site" target="_blank">EML Tech Studio</a></p>
+        </div>
     </div>
-    <div class="role-card" onclick="showScreen('screen-worker-auth')">
-      <div class="role-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-      </div>
-      <h3>Health Worker</h3>
-      <p>Doctor, Nurse, etc.</p>
-    </div>
-    <div class="role-card" onclick="showScreen('screen-patient-auth')">
-      <div class="role-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-      </div>
-      <h3>Patient</h3>
-      <p>View your records</p>
-    </div>
-    <div class="role-card" onclick="showScreen('screen-emergency')">
-      <div class="role-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
-      </div>
-      <h3>Emergency</h3>
-      <p>Find nearest care</p>
-    </div>
-  </div>
-</div>
 
-<!-- Hospital Auth -->
-<div class="screen" id="screen-hospital-auth">
-  <div class="header">
-    <div class="header-flex">
-      <button class="back-btn" onclick="showScreen('screen-role-select')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h1>Hospital Portal</h1>
-      <div style="width:30px"></div>
+    <!-- ==================== ROLE SELECTION ==================== -->
+    <div id="screen-role-select" class="screen">
+        <div class="role-header">
+            <div class="role-logo">
+                <img src="icons/icon.png" alt="Thrivelink" width="48" height="48" style="border-radius:12px;">
+            </div>
+            <h2>Welcome to Thrivelink</h2>
+            <p>Select your role to continue</p>
+        </div>
+        <div class="role-grid">
+            <div class="role-card" onclick="selectRole('hospital')">
+                <div class="role-icon"><i class="fas fa-hospital"></i></div>
+                <h3>Hospital</h3>
+                <p>Manage patients, add records, and update medical information</p>
+            </div>
+            <div class="role-card" onclick="selectRole('worker')">
+                <div class="role-icon"><i class="fas fa-user-md"></i></div>
+                <h3>Medical Worker</h3>
+                <p>View patient records and search the national database</p>
+            </div>
+            <div class="role-card" onclick="selectRole('patient')">
+                <div class="role-icon"><i class="fas fa-heartbeat"></i></div>
+                <h3>Patient</h3>
+                <p>Access your health records and find care near you</p>
+            </div>
+        </div>
+        <div class="role-footer">
+            <p>Thrivelink Health Limited &copy; 2025</p>
+            <p class="credit">Made with <span class="heart">&#10084;</span> by <a href="https://emltechstudio.site" target="_blank">EML Tech Studio</a></p>
+        </div>
     </div>
-  </div>
-  <div class="auth-tabs">
-    <button class="auth-tab active" onclick="switchTab(this,'hospital-login')">Login</button>
-    <button class="auth-tab" onclick="switchTab(this,'hospital-signup')">Sign Up</button>
-  </div>
-  <div id="hospital-login" class="auth-panel">
-    <div class="card" style="margin-top:20px;">
-      <div class="form-group">
-        <label class="form-label">Admin Username / Email</label>
-        <input type="text" class="form-input" id="hosp-login-user" placeholder="Enter username or email">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Password</label>
-        <input type="password" class="form-input" id="hosp-login-pass" placeholder="Enter password">
-      </div>
-      <button class="btn btn-primary" onclick="hospitalLogin()">Login</button>
-      <button class="btn btn-outline" style="margin-top:10px;" onclick="requestHospitalOTP()">Login with OTP</button>
-      <p style="text-align:center;margin-top:16px;font-size:13px;">
-        <a href="#" class="link" onclick="showScreen('screen-hospital-forgot')">Forgot Password?</a>
-      </p>
-    </div>
-  </div>
-  <div id="hospital-signup" class="auth-panel hidden">
-    <div class="card" style="margin-top:20px;">
-      <div class="form-group"><label class="form-label">Hospital Name *</label><input type="text" class="form-input" id="hosp-name" placeholder="e.g. National Hospital Abuja"></div>
-      <div class="form-group"><label class="form-label">Full Address *</label><textarea class="form-textarea" id="hosp-address" placeholder="Street, City, State"></textarea></div>
-      <div class="form-group"><label class="form-label">Google Maps Link</label><input type="url" class="form-input" id="hosp-maps" placeholder="https://maps.google.com/..."></div>
-      <div class="form-group"><label class="form-label">Contact Email *</label><input type="email" class="form-input" id="hosp-email" placeholder="admin@hospital.ng"></div>
-      <div class="form-group"><label class="form-label">Contact Phone *</label><input type="tel" class="form-input" id="hosp-phone" placeholder="+234 800 000 0000"></div>
-      <div class="form-group"><label class="form-label">Admin Username *</label><input type="text" class="form-input" id="hosp-username" placeholder="Choose a username"></div>
-      <div class="form-group"><label class="form-label">Password *</label><input type="password" class="form-input" id="hosp-pass" placeholder="Min 6 characters"></div>
-      <div class="form-group"><label class="form-label">Confirm Password *</label><input type="password" class="form-input" id="hosp-pass2" placeholder="Repeat password"></div>
-      <div class="form-group"><label class="form-label">Office Hours</label><div class="hours-grid" id="hosp-hours"></div></div>
-      <button class="btn btn-primary" onclick="hospitalSignup()">Continue</button>
-    </div>
-  </div>
-</div>
 
-<!-- Hospital OTP -->
-<div class="screen" id="screen-hospital-otp">
-  <div class="header">
-    <div class="header-flex">
-      <button class="back-btn" onclick="showScreen('screen-hospital-auth')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h1>Verify Email</h1>
-      <div style="width:30px"></div>
+    <!-- ==================== HOSPITAL SCREENS ==================== -->
+    <div id="screen-hospital-login" class="screen">
+        <div class="auth-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Hospital Login</h2>
+        </div>
+        <div class="auth-body">
+            <div class="auth-logo"><img src="icons/icon.png" alt="Thrivelink" width="48" height="48" style="border-radius:50%;"></div>
+            <form id="hospital-login-form" onsubmit="handleHospitalLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="h-login-username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-group">
+                        <input type="password" id="h-login-password" placeholder="Enter password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('h-login-password')"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <div class="auth-divider"><span>or</span></div>
+            <button class="btn-outline" onclick="showScreen('screen-hospital-otp')">
+                <i class="fas fa-key"></i> Login with OTP
+            </button>
+            <div class="auth-links">
+                <a onclick="showScreen('screen-hospital-forgot')">Forgot password?</a>
+                <a onclick="showScreen('screen-hospital-signup')">Create account</a>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="card" style="margin-top:40px;text-align:center;">
-    <p style="color:var(--text-light);margin-bottom:20px;">Enter the 6-digit OTP sent to your email</p>
-    <div class="otp-container">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,1)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,2)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,3)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,4)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,5)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,6)">
-    </div>
-    <button class="btn btn-primary" style="margin-top:20px;" onclick="verifyHospitalOTP()">Verify & Complete Signup</button>
-  </div>
-</div>
 
-<!-- Hospital Dashboard -->
-<div class="screen" id="screen-hospital-dashboard">
-  <div class="header">
-    <div class="header-flex">
-      <h1>Dashboard</h1>
-      <button class="btn btn-sm btn-outline" onclick="logout()">Logout</button>
+    <div id="screen-hospital-signup" class="screen">
+        <div class="auth-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Hospital Registration</h2>
+        </div>
+        <div class="auth-body">
+            <form id="hospital-signup-form" onsubmit="handleHospitalSignup(event)">
+                <div class="form-group">
+                    <label>Hospital Name *</label>
+                    <input type="text" id="h-signup-name" placeholder="e.g. Lagos General Hospital" required>
+                </div>
+                <div class="form-group">
+                    <label>Username *</label>
+                    <input type="text" id="h-signup-username" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="h-signup-email" placeholder="hospital@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" id="h-signup-phone" placeholder="+234 800 000 0000" required>
+                </div>
+                <div class="form-group">
+                    <label>Password *</label>
+                    <div class="input-group">
+                        <input type="password" id="h-signup-password" placeholder="Min 8 characters" required minlength="8">
+                        <button type="button" class="toggle-password" onclick="togglePassword('h-signup-password')"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password *</label>
+                    <input type="password" id="h-signup-confirm" placeholder="Confirm password" required>
+                </div>
+                <div class="form-group">
+                    <label>Full Address *</label>
+                    <textarea id="h-signup-address" placeholder="Street, City, State" required rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Profession/Type *</label>
+                    <select id="h-signup-profession" required>
+                        <option value="">Select type</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Website</label>
+                    <input type="url" id="h-signup-website" placeholder="https://hospital.com">
+                </div>
+                <div class="form-group office-hours">
+                    <label>Office Hours</label>
+                    <div class="hours-grid">
+                        <div><span>Mon</span><input type="text" id="h-hours-mon" placeholder="8:00 AM - 5:00 PM" value="8:00 AM - 5:00 PM"></div>
+                        <div><span>Tue</span><input type="text" id="h-hours-tue" placeholder="8:00 AM - 5:00 PM" value="8:00 AM - 5:00 PM"></div>
+                        <div><span>Wed</span><input type="text" id="h-hours-wed" placeholder="8:00 AM - 5:00 PM" value="8:00 AM - 5:00 PM"></div>
+                        <div><span>Thu</span><input type="text" id="h-hours-thu" placeholder="8:00 AM - 5:00 PM" value="8:00 AM - 5:00 PM"></div>
+                        <div><span>Fri</span><input type="text" id="h-hours-fri" placeholder="8:00 AM - 5:00 PM" value="8:00 AM - 5:00 PM"></div>
+                        <div><span>Sat</span><input type="text" id="h-hours-sat" placeholder="9:00 AM - 2:00 PM" value="9:00 AM - 2:00 PM"></div>
+                        <div><span>Sun</span><input type="text" id="h-hours-sun" placeholder="Closed" value="Closed"></div>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+            <div class="auth-links">
+                <a onclick="showScreen('screen-hospital-login')">Already have an account? Login</a>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="stats-grid">
-    <div class="stat-card"><div class="stat-number" id="stat-patients">0</div><div class="stat-label">Patients</div></div>
-    <div class="stat-card"><div class="stat-number" id="stat-remarks">0</div><div class="stat-label">Remarks</div></div>
-  </div>
-  <div class="card">
-    <h3 class="card-title">Quick Actions</h3>
-    <button class="btn btn-primary" onclick="showScreen('screen-add-patient')">Add New Patient</button>
-    <button class="btn btn-secondary" style="margin-top:10px;" onclick="showScreen('screen-search-patient')">Search Patient</button>
-  </div>
-  <div class="card">
-    <h3 class="card-title">Recent Patients</h3>
-    <div id="recent-patients-list">
-      <div class="empty-state">
-        <p>No patients yet</p>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Add Patient -->
-<div class="screen" id="screen-add-patient">
-  <div class="header">
-    <div class="header-flex">
-      <button class="back-btn" onclick="showScreen('screen-hospital-dashboard')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h1>Add Patient</h1>
-      <div style="width:30px"></div>
+    <div id="screen-hospital-otp" class="screen">
+        <div class="auth-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>OTP Login</h2>
+        </div>
+        <div class="auth-body">
+            <div class="auth-logo"><img src="icons/icon.png" alt="Thrivelink" width="48" height="48" style="border-radius:50%;"></div>
+            <p class="auth-desc">Enter your username to receive a one-time password</p>
+            <form id="hospital-otp-form" onsubmit="handleHospitalOTP(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="h-otp-username" placeholder="Enter username" required>
+                </div>
+                <button type="submit" class="btn-primary" id="h-otp-send-btn">Send OTP</button>
+            </form>
+            <form id="hospital-otp-verify-form" class="hidden" onsubmit="handleHospitalOTPVerify(event)">
+                <div class="form-group">
+                    <label>OTP Code</label>
+                    <input type="text" id="h-otp-code" placeholder="Enter 6-digit code" maxlength="6" required>
+                </div>
+                <button type="submit" class="btn-primary">Verify OTP</button>
+                <p class="resend-text">Didn't receive? <span id="h-otp-timer">Resend in 60s</span></p>
+            </form>
+        </div>
     </div>
-  </div>
-  <div class="card" style="margin-top:16px;">
-    <div class="form-group"><label class="form-label">NIN (11 digits) *</label><input type="text" class="form-input" id="pat-nin" maxlength="11" placeholder="12345678901"></div>
-    <div class="form-group"><label class="form-label">Full Name *</label><input type="text" class="form-input" id="pat-name" placeholder="Patient full name"></div>
-    <div class="form-group"><label class="form-label">Date of Birth *</label><input type="date" class="form-input" id="pat-dob"></div>
-    <div class="form-group"><label class="form-label">Sex *</label><select class="form-select" id="pat-sex"><option value="">Select</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></div>
-    <div class="form-group"><label class="form-label">Blood Group</label><select class="form-select" id="pat-blood"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
-    <div class="form-group"><label class="form-label">Height</label><input type="text" class="form-input" id="pat-height" placeholder="e.g. 175cm"></div>
-    <div class="form-group"><label class="form-label">Weight</label><input type="text" class="form-input" id="pat-weight" placeholder="e.g. 70kg"></div>
-    <div class="form-group"><label class="form-label">Address *</label><textarea class="form-textarea" id="pat-address" placeholder="Full address"></textarea></div>
-    <div class="form-group"><label class="form-label">Phone *</label><input type="tel" class="form-input" id="pat-phone" placeholder="+234 800 000 0000"></div>
-    <div class="form-group"><label class="form-label">Email *</label><input type="email" class="form-input" id="pat-email" placeholder="patient@email.com"></div>
-    <button class="btn btn-primary" onclick="addPatient()">Create Patient Record</button>
-  </div>
-</div>
 
-<!-- Search Patient -->
-<div class="screen" id="screen-search-patient">
-  <div class="header">
-    <div class="header-flex">
-      <button class="back-btn" onclick="showScreen('screen-hospital-dashboard')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h1>Find Patient</h1>
-      <div style="width:30px"></div>
+    <div id="screen-hospital-forgot" class="screen">
+        <div class="auth-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Reset Password</h2>
+        </div>
+        <div class="auth-body">
+            <div class="auth-logo"><img src="icons/icon.png" alt="Thrivelink" width="48" height="48" style="border-radius:50%;"></div>
+            <form id="hospital-forgot-form" onsubmit="handleHospitalForgot(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="h-forgot-username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <div class="input-group">
+                        <input type="password" id="h-forgot-password" placeholder="Min 8 characters" required minlength="8">
+                        <button type="button" class="toggle-password" onclick="togglePassword('h-forgot-password')"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Reset Password</button>
+            </form>
+        </div>
     </div>
-  </div>
-  <div class="search-bar"><input type="text" class="search-input" id="search-nin" placeholder="Enter NIN to search..." maxlength="11"></div>
-  <button class="btn btn-primary" style="margin:0 16px;" onclick="searchPatient()">Search</button>
-  <div id="search-results"></div>
-</div>
 
-<!-- Patient Record (Hospital) -->
-<div class="screen" id="screen-patient-record">
-  <div class="header">
-    <div class="header-flex">
-      <button class="back-btn" onclick="showScreen('screen-search-patient')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h1>Patient Record</h1>
-      <div style="width:30px"></div>
+    <div id="screen-hospital-dashboard" class="screen">
+        <div class="dashboard-header">
+            <div class="dashboard-welcome">
+                <h2 id="h-dashboard-name">Hospital</h2>
+                <p id="h-dashboard-profession">Loading...</p>
+            </div>
+            <button class="btn-icon" onclick="showScreen('screen-hospital-profile')"><i class="fas fa-cog"></i></button>
+        </div>
+        <div class="dashboard-body">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <span class="stat-number" id="h-stat-patients">0</span>
+                    <span class="stat-label">Total Patients</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-day"></i>
+                    <span class="stat-number" id="h-stat-today">0</span>
+                    <span class="stat-label">Today</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-file-medical"></i>
+                    <span class="stat-number" id="h-stat-remarks">0</span>
+                    <span class="stat-label">Remarks</span>
+                </div>
+            </div>
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="actions-grid">
+                    <div class="action-card" onclick="showScreen('screen-hospital-patient-search')">
+                        <i class="fas fa-search"></i>
+                        <span>Search Patient</span>
+                    </div>
+                    <div class="action-card" onclick="showScreen('screen-hospital-patient-create')">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Add Patient</span>
+                    </div>
+                    <div class="action-card" onclick="showScreen('screen-find-care')">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Find Care</span>
+                    </div>
+                    <div class="action-card" onclick="showScreen('screen-hospital-location')">
+                        <i class="fas fa-location-arrow"></i>
+                        <span>Update Location</span>
+                    </div>
+                </div>
+            </div>
+            <div class="recent-section">
+                <div class="recent-header">
+                    <h3>Recent Patients</h3>
+                    <button class="btn-text" onclick="clearRecentPatients()">Clear</button>
+                </div>
+                <div id="h-recent-patients" class="recent-list">
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>No recent patients</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="showScreen('screen-hospital-dashboard')">
+                <i class="fas fa-home"></i><span>Home</span>
+            </button>
+            <button class="nav-item" onclick="showScreen('screen-hospital-patient-search')">
+                <i class="fas fa-search"></i><span>Search</span>
+            </button>
+            <button class="nav-item nav-add" onclick="showScreen('screen-hospital-patient-create')">
+                <i class="fas fa-plus"></i>
+            </button>
+            <button class="nav-item" onclick="showScreen('screen-find-care')">
+                <i class="fas fa-map-marker-alt"></i><span>Care</span>
+            </button>
+            <button class="nav-item" onclick="showScreen('screen-hospital-profile')">
+                <i class="fas fa-user"></i><span>Profile</span>
+            </button>
+        </div>
     </div>
-  </div>
-  <div id="patient-record-content"></div>
-  <div class="card">
-    <h3 class="card-title">Add Remark</h3>
-    <div class="form-group"><label class="form-label">Subject *</label><input type="text" class="form-input" id="rem-subject" placeholder="e.g. Blood Test Results"></div>
-    <div class="form-group"><label class="form-label">Details *</label><textarea class="form-textarea" id="rem-text" placeholder="Full medical details..."></textarea></div>
-    <div class="form-group"><label class="form-label">Doctor Name *</label><input type="text" class="form-input" id="rem-doctor" placeholder="Dr. Name"></div>
-    <div class="form-group"><label class="form-label">Date *</label><input type="date" class="form-input" id="rem-date"></div>
-    <button class="btn btn-primary" onclick="addRemark()">Add Remark</button>
-  </div>
-</div>
 
-<!-- Worker Auth -->
-<div class="screen" id="screen-worker-auth">
-  <div class="header">
-    <div class="header-flex">
-      <button class="back-btn" onclick="showScreen('screen-role-select')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h1>Health Worker</h1>
-      <div style="width:30px"></div>
+    <div id="screen-hospital-patient-search" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Search Patient</h2>
+        </div>
+        <div class="page-body">
+            <div class="search-box">
+                <i class="fas fa-id-card"></i>
+                <input type="text" id="h-search-nin" placeholder="Enter Patient NIN" maxlength="11">
+                <button onclick="searchHospitalPatient()"><i class="fas fa-search"></i></button>
+            </div>
+            <p class="search-hint">Enter the 11-digit National Identification Number</p>
+            <div id="h-search-results" class="results-container"></div>
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="showScreen('screen-hospital-dashboard')"><i class="fas fa-home"></i><span>Home</span></button>
+            <button class="nav-item active" onclick="showScreen('screen-hospital-patient-search')"><i class="fas fa-search"></i><span>Search</span></button>
+            <button class="nav-item nav-add" onclick="showScreen('screen-hospital-patient-create')"><i class="fas fa-plus"></i></button>
+            <button class="nav-item" onclick="showScreen('screen-find-care')"><i class="fas fa-map-marker-alt"></i><span>Care</span></button>
+            <button class="nav-item" onclick="showScreen('screen-hospital-profile')"><i class="fas fa-user"></i><span>Profile</span></button>
+        </div>
     </div>
-  </div>
-  <div class="auth-tabs">
-    <button class="auth-tab active" onclick="switchTab(this,'worker-login')">Login</button>
-    <button class="auth-tab" onclick="switchTab(this,'worker-signup')">Sign Up</button>
-  </div>
-  <div id="worker-login" class="auth-panel">
-    <div class="card" style="margin-top:20px;">
-      <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="work-login-email" placeholder="your@email.com"></div>
-      <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" id="work-login-pass" placeholder="Enter password"></div>
-      <button class="btn btn-primary" onclick="workerLogin()">Login</button>
-      <button class="btn btn-outline" style="margin-top:10px;" onclick="requestWorkerOTP()">Login with OTP</button>
-    </div>
-  </div>
-  <div id="worker-signup" class="auth-panel hidden">
-    <div class="card" style="margin-top:20px;">
-      <div class="form-group"><label class="form-label">Full Name *</label><input type="text" class="form-input" id="work-name" placeholder="Dr. John Doe"></div>
-      <div class="form-group"><label class="form-label">Email *</label><input type="email" class="form-input" id="work-email" placeholder="your@email.com"></div>
-      <div class="form-group"><label class="form-label">Profession *</label><select class="form-select" id="work-profession"><option value="">Select</option><option>Doctor</option><option>Nurse</option><option>Dentist</option><option>Pharmacist</option><option>Lab Technician</option><option>Physiotherapist</option><option>Other</option></select></div>
-      <div class="form-group"><label class="form-label">License Number *</label><input type="text" class="form-input" id="work-license" placeholder="Medical license number"></div>
-      <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="work-phone" placeholder="+234 800 000 0000"></div>
-      <div class="form-group"><label class="form-label">Full Address *</label><textarea class="form-textarea" id="work-address" placeholder="Office address"></textarea></div>
-      <div class="form-group"><label class="form-label">Google Maps Link</label><input type="url" class="form-input" id="work-maps" placeholder="https://maps.google.com/..."></div>
-      <div class="form-group"><label class="form-label">Office Hours</label><div class="hours-grid" id="work-hours"></div></div>
-      <div class="form-group"><label class="form-label">Password *</label><input type="password" class="form-input" id="work-pass" placeholder="Min 6 characters"></div>
-      <div class="form-group"><label class="form-label">Confirm Password *</label><input type="password" class="form-input" id="work-pass2" placeholder="Repeat password"></div>
-      <button class="btn btn-primary" onclick="workerSignup()">Continue</button>
-    </div>
-  </div>
-</div>
 
-<!-- Worker OTP -->
-<div class="screen" id="screen-worker-otp">
-  <div class="header">
-    <div class="header-flex">
-      <button class="back-btn" onclick="showScreen('screen-worker-auth')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h1>Verify Email</h1>
-      <div style="width:30px"></div>
+    <div id="screen-hospital-patient-create" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Add New Patient</h2>
+        </div>
+        <div class="page-body">
+            <form id="h-patient-create-form" onsubmit="handleCreatePatient(event)">
+                <div class="form-group">
+                    <label>NIN *</label>
+                    <input type="text" id="hp-create-nin" placeholder="11-digit NIN" maxlength="11" required>
+                </div>
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="hp-create-name" placeholder="Patient full name" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" id="hp-create-dob">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select id="hp-create-gender">
+                            <option value="">Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Blood Type</label>
+                        <select id="hp-create-blood">
+                            <option value="">Select</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="hp-create-phone" placeholder="+234...">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Allergies</label>
+                    <textarea id="hp-create-allergies" placeholder="List any known allergies" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="hp-create-address" placeholder="Full address" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Emergency Contact</label>
+                    <input type="text" id="hp-create-emergency" placeholder="Name and phone">
+                </div>
+                <button type="submit" class="btn-primary">Create Patient Record</button>
+            </form>
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="showScreen('screen-hospital-dashboard')"><i class="fas fa-home"></i><span>Home</span></button>
+            <button class="nav-item" onclick="showScreen('screen-hospital-patient-search')"><i class="fas fa-search"></i><span>Search</span></button>
+            <button class="nav-item nav-add active" onclick="showScreen('screen-hospital-patient-create')"><i class="fas fa-plus"></i></button>
+            <button class="nav-item" onclick="showScreen('screen-find-care')"><i class="fas fa-map-marker-alt"></i><span>Care</span></button>
+            <button class="nav-item" onclick="showScreen('screen-hospital-profile')"><i class="fas fa-user"></i><span>Profile</span></button>
+        </div>
     </div>
-  </div>
-  <div class="card" style="margin-top:40px;text-align:center;">
-    <p style="color:var(--text-light);margin-bottom:20px;">Enter the 6-digit OTP sent to your email</p>
-    <div class="otp-container">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,1)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,2)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,3)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,4)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,5)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,6)">
-    </div>
-    <button class="btn btn-primary" style="margin-top:20px;" onclick="verifyWorkerOTP()">Verify & Complete Signup</button>
-  </div>
-</div>
 
-<!-- Worker Dashboard -->
-<div class="screen" id="screen-worker-dashboard">
-  <div class="header">
-    <div class="header-flex">
-      <h1>Worker Dashboard</h1>
-      <button class="btn btn-sm btn-outline" onclick="logout()">Logout</button>
+    <div id="screen-hospital-patient-detail" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Patient Record</h2>
+            <button class="btn-icon" onclick="showAddRemark()"><i class="fas fa-comment-medical"></i></button>
+        </div>
+        <div class="page-body" id="h-patient-detail-body">
+            <!-- Populated by JS -->
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="showScreen('screen-hospital-dashboard')"><i class="fas fa-home"></i><span>Home</span></button>
+            <button class="nav-item" onclick="showScreen('screen-hospital-patient-search')"><i class="fas fa-search"></i><span>Search</span></button>
+            <button class="nav-item nav-add" onclick="showScreen('screen-hospital-patient-create')"><i class="fas fa-plus"></i></button>
+            <button class="nav-item" onclick="showScreen('screen-find-care')"><i class="fas fa-map-marker-alt"></i><span>Care</span></button>
+            <button class="nav-item" onclick="showScreen('screen-hospital-profile')"><i class="fas fa-user"></i><span>Profile</span></button>
+        </div>
     </div>
-  </div>
-  <div class="card">
-    <h3 class="card-title">Search Patient</h3>
-    <div class="form-group"><input type="text" class="form-input" id="work-search-nin" maxlength="11" placeholder="Enter patient NIN"></div>
-    <button class="btn btn-primary" onclick="workerSearchPatient()">View Record</button>
-  </div>
-  <div id="worker-patient-result"></div>
-</div>
 
-<!-- Patient Auth -->
-<div class="screen" id="screen-patient-auth">
-  <div class="header">
-    <div class="header-flex">
-      <button class="back-btn" onclick="showScreen('screen-role-select')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h1>Patient Access</h1>
-      <div style="width:30px"></div>
+    <div id="screen-hospital-add-remark" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Add Medical Remark</h2>
+        </div>
+        <div class="page-body">
+            <form id="h-remark-form" onsubmit="handleAddRemark(event)">
+                <div class="form-group">
+                    <label>Patient NIN</label>
+                    <input type="text" id="h-remark-nin" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Remark / Notes *</label>
+                    <textarea id="h-remark-content" placeholder="Enter medical observations, diagnosis, treatment notes..." rows="6" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Save Remark</button>
+            </form>
+        </div>
     </div>
-  </div>
-  <div class="card" style="margin-top:40px;">
-    <p style="text-align:center;color:var(--text-light);margin-bottom:20px;">Enter your NIN to access your medical records</p>
-    <div class="form-group"><label class="form-label">NIN (11 digits)</label><input type="text" class="form-input" id="pat-auth-nin" maxlength="11" placeholder="12345678901"></div>
-    <button class="btn btn-primary" onclick="requestPatientOTP()">Request OTP</button>
-  </div>
-</div>
 
-<!-- Patient OTP -->
-<div class="screen" id="screen-patient-otp">
-  <div class="header">
-    <div class="header-flex">
-      <button class="back-btn" onclick="showScreen('screen-patient-auth')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h1>Verify</h1>
-      <div style="width:30px"></div>
+    <div id="screen-hospital-profile" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Hospital Profile</h2>
+        </div>
+        <div class="page-body" id="h-profile-body">
+            <!-- Populated by JS -->
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="showScreen('screen-hospital-dashboard')"><i class="fas fa-home"></i><span>Home</span></button>
+            <button class="nav-item" onclick="showScreen('screen-hospital-patient-search')"><i class="fas fa-search"></i><span>Search</span></button>
+            <button class="nav-item nav-add" onclick="showScreen('screen-hospital-patient-create')"><i class="fas fa-plus"></i></button>
+            <button class="nav-item" onclick="showScreen('screen-find-care')"><i class="fas fa-map-marker-alt"></i><span>Care</span></button>
+            <button class="nav-item active" onclick="showScreen('screen-hospital-profile')"><i class="fas fa-user"></i><span>Profile</span></button>
+        </div>
     </div>
-  </div>
-  <div class="card" style="margin-top:40px;text-align:center;">
-    <p style="color:var(--text-light);margin-bottom:20px;">OTP sent to your registered email</p>
-    <div class="otp-container">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,1)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,2)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,3)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,4)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,5)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,6)">
-    </div>
-    <button class="btn btn-primary" style="margin-top:20px;" onclick="verifyPatientOTP()">Verify & View Record</button>
-  </div>
-</div>
 
-<!-- Patient View Record -->
-<div class="screen" id="screen-patient-view">
-  <div class="header">
-    <div class="header-flex">
-      <button class="back-btn" onclick="logout()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h1>My Record</h1>
-      <button class="btn btn-sm btn-outline" onclick="logout()">Logout</button>
+    <div id="screen-hospital-location" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Update Location</h2>
+        </div>
+        <div class="page-body">
+            <div class="location-card">
+                <i class="fas fa-map-marked-alt"></i>
+                <p>Share your current GPS coordinates so patients can find you in emergency searches.</p>
+                <div id="h-current-coords" class="coords-display">No location set</div>
+            </div>
+            <button class="btn-primary" onclick="updateHospitalLocation()">
+                <i class="fas fa-location-arrow"></i> Use Current Location
+            </button>
+            <div class="form-group" style="margin-top: 24px;">
+                <label>Or enter manually:</label>
+                <input type="text" id="h-lat-manual" placeholder="Latitude (e.g. 6.5244)">
+                <input type="text" id="h-lon-manual" placeholder="Longitude (e.g. 3.3792)" style="margin-top:8px;">
+                <button class="btn-outline" style="margin-top:12px;" onclick="saveManualLocation('hospital')">Save Manual Location</button>
+            </div>
+        </div>
     </div>
-  </div>
-  <div id="patient-view-content"></div>
-  <div class="card">
-    <h3 class="card-title">Update Contact Info</h3>
-    <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="update-phone" placeholder="New phone number"></div>
-    <div class="form-group"><label class="form-label">Address</label><textarea class="form-textarea" id="update-address" placeholder="New address"></textarea></div>
-    <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="update-email" placeholder="New email"></div>
-    <button class="btn btn-primary" onclick="requestContactUpdateOTP()">Request OTP to Update</button>
-  </div>
-</div>
 
-<!-- Contact Update OTP -->
-<div class="screen" id="screen-contact-otp">
-  <div class="header">
-    <div class="header-flex">
-      <button class="back-btn" onclick="showScreen('screen-patient-view')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h1>Verify Update</h1>
-      <div style="width:30px"></div>
+    <!-- ==================== WORKER SCREENS ==================== -->
+    <div id="screen-worker-login" class="screen">
+        <div class="auth-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Worker Login</h2>
+        </div>
+        <div class="auth-body">
+            <div class="auth-logo"><img src="icons/icon.png" alt="Thrivelink" width="48" height="48" style="border-radius:50%;"></div>
+            <form id="worker-login-form" onsubmit="handleWorkerLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="w-login-username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-group">
+                        <input type="password" id="w-login-password" placeholder="Enter password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('w-login-password')"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <div class="auth-divider"><span>or</span></div>
+            <button class="btn-outline" onclick="showScreen('screen-worker-otp')">
+                <i class="fas fa-key"></i> Login with OTP
+            </button>
+            <div class="auth-links">
+                <a onclick="showScreen('screen-worker-forgot')">Forgot password?</a>
+                <a onclick="showScreen('screen-worker-signup')">Create account</a>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="card" style="margin-top:40px;text-align:center;">
-    <p style="color:var(--text-light);margin-bottom:20px;">Enter OTP to confirm contact update</p>
-    <div class="otp-container">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,1)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,2)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,3)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,4)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,5)">
-      <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,6)">
+
+    <div id="screen-worker-signup" class="screen">
+        <div class="auth-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Worker Registration</h2>
+        </div>
+        <div class="auth-body">
+            <form id="worker-signup-form" onsubmit="handleWorkerSignup(event)">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="w-signup-name" placeholder="Your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Username *</label>
+                    <input type="text" id="w-signup-username" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="w-signup-email" placeholder="you@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" id="w-signup-phone" placeholder="+234 800 000 0000" required>
+                </div>
+                <div class="form-group">
+                    <label>Password *</label>
+                    <div class="input-group">
+                        <input type="password" id="w-signup-password" placeholder="Min 8 characters" required minlength="8">
+                        <button type="button" class="toggle-password" onclick="togglePassword('w-signup-password')"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password *</label>
+                    <input type="password" id="w-signup-confirm" placeholder="Confirm password" required>
+                </div>
+                <div class="form-group">
+                    <label>Full Address *</label>
+                    <textarea id="w-signup-address" placeholder="Street, City, State" required rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Profession *</label>
+                    <select id="w-signup-profession" required>
+                        <option value="">Select profession</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hospital Affiliation (Optional)</label>
+                    <input type="text" id="w-signup-hospital" placeholder="Hospital name if affiliated">
+                </div>
+                <div class="form-group office-hours">
+                    <label>Office Hours</label>
+                    <div class="hours-grid">
+                        <div><span>Mon</span><input type="text" id="w-hours-mon" value="8:00 AM - 5:00 PM"></div>
+                        <div><span>Tue</span><input type="text" id="w-hours-tue" value="8:00 AM - 5:00 PM"></div>
+                        <div><span>Wed</span><input type="text" id="w-hours-wed" value="8:00 AM - 5:00 PM"></div>
+                        <div><span>Thu</span><input type="text" id="w-hours-thu" value="8:00 AM - 5:00 PM"></div>
+                        <div><span>Fri</span><input type="text" id="w-hours-fri" value="8:00 AM - 5:00 PM"></div>
+                        <div><span>Sat</span><input type="text" id="w-hours-sat" value="9:00 AM - 2:00 PM"></div>
+                        <div><span>Sun</span><input type="text" id="w-hours-sun" value="Closed"></div>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+            <div class="auth-links">
+                <a onclick="showScreen('screen-worker-login')">Already have an account? Login</a>
+            </div>
+        </div>
     </div>
-    <button class="btn btn-primary" style="margin-top:20px;" onclick="verifyContactUpdate()">Confirm Update</button>
-  </div>
-</div>
 
-<!-- Emergency Search -->
-<div class="screen" id="screen-emergency">
-  <div class="header">
-    <div class="header-flex">
-      <button class="back-btn" onclick="showScreen('screen-role-select')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h1>Emergency Search</h1>
-      <div style="width:30px"></div>
+    <div id="screen-worker-otp" class="screen">
+        <div class="auth-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>OTP Login</h2>
+        </div>
+        <div class="auth-body">
+            <div class="auth-logo"><img src="icons/icon.png" alt="Thrivelink" width="48" height="48" style="border-radius:50%;"></div>
+            <p class="auth-desc">Enter your username to receive a one-time password</p>
+            <form id="worker-otp-form" onsubmit="handleWorkerOTP(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="w-otp-username" placeholder="Enter username" required>
+                </div>
+                <button type="submit" class="btn-primary" id="w-otp-send-btn">Send OTP</button>
+            </form>
+            <form id="worker-otp-verify-form" class="hidden" onsubmit="handleWorkerOTPVerify(event)">
+                <div class="form-group">
+                    <label>OTP Code</label>
+                    <input type="text" id="w-otp-code" placeholder="Enter 6-digit code" maxlength="6" required>
+                </div>
+                <button type="submit" class="btn-primary">Verify OTP</button>
+                <p class="resend-text">Didn't receive? <span id="w-otp-timer">Resend in 60s</span></p>
+            </form>
+        </div>
     </div>
-  </div>
-  <div class="search-bar"><input type="text" class="search-input" id="emergency-search" placeholder="Search: doctors near me, hospitals near Lagos..."></div>
-  <div style="padding:0 16px;">
-    <button class="btn btn-primary" onclick="searchEmergency()">Search</button>
-    <button class="btn btn-secondary" style="margin-top:8px;" onclick="useMyLocation()">Use My Location</button>
-  </div>
-  <div id="emergency-results"></div>
-</div>
 
-<!-- Toast -->
-<div class="toast" id="toast"></div>
+    <div id="screen-worker-forgot" class="screen">
+        <div class="auth-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Reset Password</h2>
+        </div>
+        <div class="auth-body">
+            <div class="auth-logo"><img src="icons/icon.png" alt="Thrivelink" width="48" height="48" style="border-radius:50%;"></div>
+            <form id="worker-forgot-form" onsubmit="handleWorkerForgot(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="w-forgot-username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <div class="input-group">
+                        <input type="password" id="w-forgot-password" placeholder="Min 8 characters" required minlength="8">
+                        <button type="button" class="toggle-password" onclick="togglePassword('w-forgot-password')"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Reset Password</button>
+            </form>
+        </div>
+    </div>
 
-</div>
-<script src="app.js"></script>
+    <div id="screen-worker-dashboard" class="screen">
+        <div class="dashboard-header">
+            <div class="dashboard-welcome">
+                <h2 id="w-dashboard-name">Worker</h2>
+                <p id="w-dashboard-profession">Loading...</p>
+            </div>
+            <button class="btn-icon" onclick="showScreen('screen-worker-profile')"><i class="fas fa-cog"></i></button>
+        </div>
+        <div class="dashboard-body">
+            <div class="worker-banner">
+                <i class="fas fa-info-circle"></i>
+                <p>You have <strong>read-only access</strong> to patient records. Only hospitals can create and edit records.</p>
+            </div>
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="actions-grid actions-3">
+                    <div class="action-card" onclick="showScreen('screen-worker-patient-search')">
+                        <i class="fas fa-search"></i>
+                        <span>Search Patient</span>
+                    </div>
+                    <div class="action-card" onclick="showScreen('screen-find-care')">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Find Care</span>
+                    </div>
+                    <div class="action-card" onclick="showScreen('screen-worker-location')">
+                        <i class="fas fa-location-arrow"></i>
+                        <span>Update Location</span>
+                    </div>
+                </div>
+            </div>
+            <div class="recent-section">
+                <div class="recent-header">
+                    <h3>Recent Searches</h3>
+                    <button class="btn-text" onclick="clearRecentSearches()">Clear</button>
+                </div>
+                <div id="w-recent-searches" class="recent-list">
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>No recent searches</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="showScreen('screen-worker-dashboard')"><i class="fas fa-home"></i><span>Home</span></button>
+            <button class="nav-item" onclick="showScreen('screen-worker-patient-search')"><i class="fas fa-search"></i><span>Search</span></button>
+            <button class="nav-item" onclick="showScreen('screen-find-care')"><i class="fas fa-map-marker-alt"></i><span>Care</span></button>
+            <button class="nav-item" onclick="showScreen('screen-worker-profile')"><i class="fas fa-user"></i><span>Profile</span></button>
+        </div>
+    </div>
+
+    <div id="screen-worker-patient-search" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Search Patient</h2>
+        </div>
+        <div class="page-body">
+            <div class="search-box">
+                <i class="fas fa-id-card"></i>
+                <input type="text" id="w-search-nin" placeholder="Enter Patient NIN" maxlength="11">
+                <button onclick="searchWorkerPatient()"><i class="fas fa-search"></i></button>
+            </div>
+            <p class="search-hint">Enter the 11-digit National Identification Number</p>
+            <div id="w-search-results" class="results-container"></div>
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="showScreen('screen-worker-dashboard')"><i class="fas fa-home"></i><span>Home</span></button>
+            <button class="nav-item active" onclick="showScreen('screen-worker-patient-search')"><i class="fas fa-search"></i><span>Search</span></button>
+            <button class="nav-item" onclick="showScreen('screen-find-care')"><i class="fas fa-map-marker-alt"></i><span>Care</span></button>
+            <button class="nav-item" onclick="showScreen('screen-worker-profile')"><i class="fas fa-user"></i><span>Profile</span></button>
+        </div>
+    </div>
+
+    <div id="screen-worker-patient-detail" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Patient Record</h2>
+            <span class="read-only-badge"><i class="fas fa-eye"></i> Read Only</span>
+        </div>
+        <div class="page-body" id="w-patient-detail-body"></div>
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="showScreen('screen-worker-dashboard')"><i class="fas fa-home"></i><span>Home</span></button>
+            <button class="nav-item" onclick="showScreen('screen-worker-patient-search')"><i class="fas fa-search"></i><span>Search</span></button>
+            <button class="nav-item" onclick="showScreen('screen-find-care')"><i class="fas fa-map-marker-alt"></i><span>Care</span></button>
+            <button class="nav-item" onclick="showScreen('screen-worker-profile')"><i class="fas fa-user"></i><span>Profile</span></button>
+        </div>
+    </div>
+
+    <div id="screen-worker-profile" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Worker Profile</h2>
+        </div>
+        <div class="page-body" id="w-profile-body"></div>
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="showScreen('screen-worker-dashboard')"><i class="fas fa-home"></i><span>Home</span></button>
+            <button class="nav-item" onclick="showScreen('screen-worker-patient-search')"><i class="fas fa-search"></i><span>Search</span></button>
+            <button class="nav-item" onclick="showScreen('screen-find-care')"><i class="fas fa-map-marker-alt"></i><span>Care</span></button>
+            <button class="nav-item active" onclick="showScreen('screen-worker-profile')"><i class="fas fa-user"></i><span>Profile</span></button>
+        </div>
+    </div>
+
+    <div id="screen-worker-location" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Update Location</h2>
+        </div>
+        <div class="page-body">
+            <div class="location-card">
+                <i class="fas fa-map-marked-alt"></i>
+                <p>Share your current GPS coordinates so patients can find you in emergency searches.</p>
+                <div id="w-current-coords" class="coords-display">No location set</div>
+            </div>
+            <button class="btn-primary" onclick="updateWorkerLocation()">
+                <i class="fas fa-location-arrow"></i> Use Current Location
+            </button>
+            <div class="form-group" style="margin-top: 24px;">
+                <label>Or enter manually:</label>
+                <input type="text" id="w-lat-manual" placeholder="Latitude (e.g. 6.5244)">
+                <input type="text" id="w-lon-manual" placeholder="Longitude (e.g. 3.3792)" style="margin-top:8px;">
+                <button class="btn-outline" style="margin-top:12px;" onclick="saveManualLocation('worker')">Save Manual Location</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PATIENT SCREENS ==================== -->
+    <div id="screen-patient-login" class="screen">
+        <div class="auth-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Patient Login</h2>
+        </div>
+        <div class="auth-body">
+            <div class="auth-logo"><img src="icons/icon.png" alt="Thrivelink" width="48" height="48" style="border-radius:50%;"></div>
+            <form id="patient-login-form" onsubmit="handlePatientLogin(event)">
+                <div class="form-group">
+                    <label>NIN or Username</label>
+                    <input type="text" id="p-login-username" placeholder="Enter NIN or username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-group">
+                        <input type="password" id="p-login-password" placeholder="Enter password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('p-login-password')"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <div class="auth-links">
+                <a onclick="showScreen('screen-patient-signup')">Create account</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-patient-signup" class="screen">
+        <div class="auth-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Patient Registration</h2>
+        </div>
+        <div class="auth-body">
+            <form id="patient-signup-form" onsubmit="handlePatientSignup(event)">
+                <div class="form-group">
+                    <label>NIN *</label>
+                    <input type="text" id="p-signup-nin" placeholder="11-digit NIN" maxlength="11" required>
+                </div>
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="p-signup-name" placeholder="Your full name" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" id="p-signup-dob">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select id="p-signup-gender">
+                            <option value="">Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" id="p-signup-phone" placeholder="+234 800 000 0000" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="p-signup-email" placeholder="you@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Password *</label>
+                    <div class="input-group">
+                        <input type="password" id="p-signup-password" placeholder="Min 8 characters" required minlength="8">
+                        <button type="button" class="toggle-password" onclick="togglePassword('p-signup-password')"><i class="fas fa-eye"></i></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password *</label>
+                    <input type="password" id="p-signup-confirm" placeholder="Confirm password" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="p-signup-address" placeholder="Full address" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Emergency Contact</label>
+                    <input type="text" id="p-signup-emergency" placeholder="Name and phone">
+                </div>
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+            <div class="auth-links">
+                <a onclick="showScreen('screen-patient-login')">Already have an account? Login</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-patient-dashboard" class="screen">
+        <div class="dashboard-header">
+            <div class="dashboard-welcome">
+                <h2 id="p-dashboard-name">Patient</h2>
+                <p>Welcome to your health portal</p>
+            </div>
+            <button class="btn-icon" onclick="showScreen('screen-patient-profile')"><i class="fas fa-cog"></i></button>
+        </div>
+        <div class="dashboard-body">
+            <div class="patient-card" id="p-profile-card">
+                <!-- Populated by JS -->
+            </div>
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="actions-grid actions-2">
+                    <div class="action-card" onclick="showScreen('screen-find-care')">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Find Care Near Me</span>
+                    </div>
+                    <div class="action-card" onclick="showScreen('screen-patient-profile')">
+                        <i class="fas fa-id-card"></i>
+                        <span>My Health ID</span>
+                    </div>
+                </div>
+            </div>
+            <div class="info-banner">
+                <i class="fas fa-shield-alt"></i>
+                <p>Your health records are secured with NIN-based encryption. Only authorized hospitals can access your full medical history.</p>
+            </div>
+        </div>
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="showScreen('screen-patient-dashboard')"><i class="fas fa-home"></i><span>Home</span></button>
+            <button class="nav-item" onclick="showScreen('screen-find-care')"><i class="fas fa-map-marker-alt"></i><span>Care</span></button>
+            <button class="nav-item" onclick="showScreen('screen-patient-profile')"><i class="fas fa-user"></i><span>Profile</span></button>
+        </div>
+    </div>
+
+    <div id="screen-patient-profile" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>My Profile</h2>
+        </div>
+        <div class="page-body" id="p-profile-body"></div>
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="showScreen('screen-patient-dashboard')"><i class="fas fa-home"></i><span>Home</span></button>
+            <button class="nav-item" onclick="showScreen('screen-find-care')"><i class="fas fa-map-marker-alt"></i><span>Care</span></button>
+            <button class="nav-item active" onclick="showScreen('screen-patient-profile')"><i class="fas fa-user"></i><span>Profile</span></button>
+        </div>
+    </div>
+
+    <!-- ==================== FIND CARE ==================== -->
+    <div id="screen-find-care" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Find Care</h2>
+            <button class="btn-icon" onclick="toggleFindCareFilters()"><i class="fas fa-filter"></i></button>
+        </div>
+        <div class="find-care-filters" id="find-care-filters">
+            <div class="filter-group">
+                <label>Profession</label>
+                <select id="fc-profession" onchange="searchFindCare()">
+                    <option value="">All Professions</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Radius: <span id="fc-radius-val">10</span> km</label>
+                <input type="range" id="fc-radius" min="1" max="50" value="10" oninput="updateRadiusLabel(); searchFindCare()">
+            </div>
+            <div class="filter-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="fc-open-now" onchange="searchFindCare()">
+                    <span>Open Now Only</span>
+                </label>
+            </div>
+        </div>
+        <div class="find-care-search">
+            <button class="btn-primary btn-location" onclick="useCurrentLocationForFindCare()">
+                <i class="fas fa-location-arrow"></i> Use My Location
+            </button>
+            <div class="search-box">
+                <i class="fas fa-map-marker-alt"></i>
+                <input type="text" id="fc-location-text" placeholder="Or enter city/area">
+                <button onclick="searchFindCare()"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+        <div class="page-body find-care-body">
+            <div id="fc-results" class="find-care-results">
+                <div class="empty-state">
+                    <i class="fas fa-search-location"></i>
+                    <p>Search for medical professionals near you</p>
+                    <p class="sub">Use your location or enter an area to find care</p>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-nav" id="find-care-nav">
+            <!-- Dynamic based on role -->
+        </div>
+    </div>
+
+    <!-- ==================== CHATBOT ==================== -->
+    <div id="screen-chatbot" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2><i class="fas fa-robot"></i> Thrivelink Assistant</h2>
+        </div>
+        <div class="chatbot-body">
+            <div id="chat-messages" class="chat-messages">
+                <div class="chat-message bot">
+                    <div class="chat-avatar"><i class="fas fa-robot"></i></div>
+                    <div class="chat-bubble">
+                        <p>Hello! I'm your Thrivelink Health Assistant. How can I help you today?</p>
+                        <div class="chat-suggestions">
+                            <button onclick="sendChatSuggestion('Find a doctor near me')">Find a doctor near me</button>
+                            <button onclick="sendChatSuggestion('How do I search for patients?')">How to search patients</button>
+                            <button onclick="sendChatSuggestion('What is NIN?')">What is NIN?</button>
+                            <button onclick="sendChatSuggestion('Contact support')">Contact support</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="handleChatKeypress(event)">
+                <button onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SETTINGS ==================== -->
+    <div id="screen-settings" class="screen">
+        <div class="page-header">
+            <button class="btn-back" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+            <h2>Settings</h2>
+        </div>
+        <div class="page-body">
+            <div class="settings-group">
+                <h3>Appearance</h3>
+                <div class="settings-item">
+                    <span><i class="fas fa-moon"></i> Dark Mode</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="setting-darkmode" onchange="toggleDarkMode()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="settings-group">
+                <h3>Account</h3>
+                <div class="settings-item" onclick="logout()">
+                    <span class="danger"><i class="fas fa-sign-out-alt"></i> Logout</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="settings-group">
+                <h3>About</h3>
+                <div class="settings-item">
+                    <span><i class="fas fa-info-circle"></i> Version</span>
+                    <span>2.0 MVP</span>
+                </div>
+                <div class="settings-item">
+                    <span><i class="fas fa-building"></i> Thrivelink Health Limited</span>
+                </div>
+                <div class="settings-item">
+                    <span><i class="fas fa-code"></i> Made with <span class="heart">&#10084;</span> by <a href="https://emltechstudio.site" target="_blank">EML Tech Studio</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FAB ==================== -->
+    <button id="fab-chatbot" class="fab" onclick="showScreen('screen-chatbot')">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <script src="app.js"></script>
 </body>
 </html>
