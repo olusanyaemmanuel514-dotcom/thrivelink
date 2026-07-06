@@ -1,95 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Install Thrivelink Health PWA on your device">
-    <meta name="theme-color" content="#0B3D91">
-    <title>Install Thrivelink - PWA Setup</title>
-    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0B3D91">
+<meta name="description" content="Install Thrivelink Health on your device. Nigeria's Connected Healthcare Platform.">
+<title>Install Thrivelink Health</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="icons/icon-72x72.png">
+<link rel="manifest" href="manifest.json">
+<style>
+.install-hero { min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 60px; background: linear-gradient(135deg, #0B3D91 0%, #0a2d6b 50%, #1E8449 100%); position: relative; overflow: hidden; }
+.install-hero .hero-inner { max-width: 700px; }
+.install-hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; color: white; line-height: 1.1; margin-bottom: 16px; }
+.install-hero p { font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 32px; }
+.install-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); padding: 8px 18px; border-radius: 30px; font-size: 13px; color: rgba(255,255,255,0.9); margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.15); }
+.app-icon-large { width: 100px; height: 100px; border-radius: 24px; background: linear-gradient(135deg, #0B3D91, #27AE60); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+.steps-section { background: var(--off-white); padding: 80px 24px; }
+.steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; max-width: 900px; margin: 0 auto; }
+.step-card { background: white; border-radius: var(--radius); padding: 32px; border: 1px solid var(--border); box-shadow: var(--shadow); text-align: center; }
+.step-num { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--deep-blue), var(--green)); color: white; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; margin: 0 auto 16px; }
+.step-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.step-card p { font-size: 14px; color: var(--text-light); line-height: 1.6; }
+.platform-tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 32px; }
+.platform-tab { padding: 10px 24px; border-radius: 30px; border: 1px solid var(--border); background: white; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.2s; }
+.platform-tab.active { background: var(--deep-blue); color: white; border-color: var(--deep-blue); }
+.platform-content { display: none; }
+.platform-content.active { display: block; }
+.features-bar { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; padding: 40px 24px; background: white; border-top: 1px solid var(--border); }
+.feature-item { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-light); }
+.feature-item svg { color: var(--green); }
+</style>
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <img src="icons/icon.png" alt="Thrivelink" width="36" height="36" style="border-radius:8px;">
-                <span>Thrivelink</span>
-            </a>
-            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="nav-links" id="nav-links">
-                <a href="index.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="services.html">Services</a>
-                <a href="contact.html">Contact</a>
-                <a href="app.html" class="btn-nav">Open App</a>
-            </div>
-        </div>
-    </nav>
 
-    <div class="install-page">
-        <div class="install-hero">
-            <h1><i class="fas fa-download"></i> Install Thrivelink</h1>
-            <p>Add Thrivelink to your home screen for quick access like a native app. Works offline, sends notifications, and feels like a real product.</p>
-        </div>
-        <div class="install-content">
-            <div class="install-step">
-                <div class="install-step-num">1</div>
-                <div>
-                    <h3><i class="fab fa-android"></i> Android (Chrome)</h3>
-                    <p>Open <strong>app.html</strong> in Chrome. Tap the menu (⋮) and select <strong>"Add to Home screen"</strong> or look for the install prompt at the bottom of the screen.</p>
-                    <div class="install-screenshot">
-                        <i class="fas fa-mobile-alt"></i>
-                        <p>Chrome will show an "Add Thrivelink to Home screen?" prompt</p>
-                    </div>
-                </div>
-            </div>
-            <div class="install-step">
-                <div class="install-step-num">2</div>
-                <div>
-                    <h3><i class="fab fa-apple"></i> iPhone / iPad (Safari)</h3>
-                    <p>Open <strong>app.html</strong> in Safari. Tap the share button <i class="fas fa-share-square"></i> at the bottom and select <strong>"Add to Home Screen"</strong>.</p>
-                    <div class="install-screenshot">
-                        <i class="fab fa-apple"></i>
-                        <p>Look for the share icon in Safari's toolbar</p>
-                    </div>
-                </div>
-            </div>
-            <div class="install-step">
-                <div class="install-step-num">3</div>
-                <div>
-                    <h3><i class="fas fa-desktop"></i> Desktop (Chrome / Edge)</h3>
-                    <p>Open <strong>app.html</strong> and click the <i class="fas fa-download"></i> install icon in the address bar, or go to Menu → More tools → Create shortcut.</p>
-                    <div class="browser-icons">
-                        <div class="browser-icon"><i class="fab fa-chrome"></i><span>Chrome</span></div>
-                        <div class="browser-icon"><i class="fab fa-edge"></i><span>Edge</span></div>
-                        <div class="browser-icon"><i class="fab fa-firefox"></i><span>Firefox</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="install-cta-box">
-                <i class="fas fa-check-circle" style="font-size:48px;color:var(--secondary);margin-bottom:16px;"></i>
-                <h2>You are All Set!</h2>
-                <p>Once installed, Thrivelink will work like a native app — full screen, offline capable, and always one tap away.</p>
-                <a href="app.html" class="btn-primary btn-lg" style="margin-top:20px;"><i class="fas fa-rocket"></i> Launch App Now</a>
-            </div>
-        </div>
+<div class="toast-container" id="toastContainer"></div>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo">
+      <div class="logo-mark"><img src="icons/icon-72x72.png" alt="Thrivelink" width="24" height="24" style="border-radius:6px;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';"><svg style="display:none;" viewBox="0 0 100 100" width="24" height="24"><rect width="100" height="100" rx="20" fill="white"/><path d="M50 25 L50 75 M25 50 L75 50" stroke="#0B3D91" stroke-width="12" stroke-linecap="round"/></svg></div>
+      <div class="logo-text-group"><div class="logo-name">Thrivelink</div><div class="logo-tag">Health Limited</div></div>
+    </a>
+    <nav class="header-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="app.html" class="btn btn-green btn-sm">Open App</a>
+    </nav>
+    <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Menu"><svg viewBox="0 0 24 24" width="20" height="20" fill="var(--text)"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></button>
+  </div>
+</header>
+
+<div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileNav()"></div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="about.html" class="nav-link">About</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="contact.html" class="nav-link">Contact</a>
+  <a href="app.html" class="btn btn-green">Open App</a>
+</div>
+
+<section class="install-hero">
+  <div class="hero-inner">
+    <div class="app-icon-large">
+      <svg width="56" height="56" viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="white"/><path d="M50 30 L50 70 M30 50 L70 50" stroke="#0B3D91" stroke-width="10" stroke-linecap="round"/></svg>
+    </div>
+    <div class="install-badge">Free &bull; Secure &bull; No App Store Needed</div>
+    <h1>Install Thrivelink<br>On Your Device</h1>
+    <p>Add Thrivelink Health to your home screen for instant access to healthcare services, patient records, and emergency care — anytime, anywhere.</p>
+    <a href="app.html" class="btn btn-green btn-lg" style="margin-right:12px;">Open in Browser</a>
+    <a href="#install-steps" class="btn btn-outline-white btn-lg">How to Install</a>
+  </div>
+</section>
+
+<div class="features-bar">
+  <div class="feature-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Works Offline</div>
+  <div class="feature-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/></svg> Secure &amp; Private</div>
+  <div class="feature-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> No App Store Required</div>
+  <div class="feature-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Always Free</div>
+</div>
+
+<section class="steps-section" id="install-steps">
+  <div class="section-header">
+    <div class="badge">Installation</div>
+    <h2>Install on Your Device</h2>
+    <p>Choose your platform below for step-by-step instructions</p>
+  </div>
+
+  <div class="platform-tabs">
+    <button class="platform-tab active" onclick="showPlatform('android')">Android</button>
+    <button class="platform-tab" onclick="showPlatform('ios')">iPhone / iPad</button>
+    <button class="platform-tab" onclick="showPlatform('desktop')">Desktop</button>
+  </div>
+
+  <div class="steps-grid">
+    <div id="android-steps" class="platform-content active">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Open Chrome</h3>
+        <p>Open this page in <strong>Google Chrome</strong> browser on your Android device.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Tap the Menu</h3>
+        <p>Tap the <strong>three dots</strong> in the top right corner of Chrome.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Add to Home Screen</h3>
+        <p>Tap <strong>"Add to Home screen"</strong> from the menu. Confirm by tapping <strong>"Add"</strong>.</p>
+      </div>
     </div>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom" style="border:none;padding-top:0;">
-                <p>&copy; 2025 Thrivelink Health Limited. All rights reserved.</p>
-                <p class="credit">Made with <span class="heart">&#10084;</span> by <a href="https://emltechstudio.site" target="_blank">EML Tech Studio</a></p>
-            </div>
-        </div>
-    </footer>
+    <div id="ios-steps" class="platform-content">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Open Safari</h3>
+        <p>Open this page in <strong>Safari</strong> on your iPhone or iPad. Other browsers will not work.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Tap Share</h3>
+        <p>Tap the <strong>Share button</strong> (square with arrow) at the bottom of Safari.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Add to Home Screen</h3>
+        <p>Scroll down and tap <strong>"Add to Home Screen"</strong>, then tap <strong>"Add"</strong> in the top right.</p>
+      </div>
+    </div>
 
-    <script src="script.js"></script>
+    <div id="desktop-steps" class="platform-content">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Open Chrome or Edge</h3>
+        <p>Use <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong> on your computer.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Look for the Install Icon</h3>
+        <p>Look for an install icon in the address bar, or click the menu and select <strong>"Install Thrivelink Health"</strong>.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Confirm Installation</h3>
+        <p>Click <strong>"Install"</strong> in the popup. The app will open in its own window.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--off-white);text-align:center;">
+  <div class="section-inner">
+    <h2 style="font-size:28px;font-weight:800;margin-bottom:12px;color:var(--deep-blue);">Ready to Get Started?</h2>
+    <p style="font-size:16px;color:var(--text-light);margin-bottom:24px;">Access healthcare services, manage patient records, and find emergency care — all in one place.</p>
+    <a href="app.html" class="btn btn-primary btn-lg">Open Thrivelink Now</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Thrivelink Health Limited</div>
+        <p>Connecting Health, Empowering Lives. A Nigerian healthcare company bridging gaps in healthcare delivery through technology, partnerships, and innovation.</p>
+        <div class="footer-tagline">Trust &amp; Transparency in Every Interaction</div>
+      </div>
+      <div class="footer-col"><h4>Company</h4><a href="index.html">Home</a><a href="about.html">About Us</a><a href="services.html">Services</a><a href="contact.html">Contact</a></div>
+      <div class="footer-col"><h4>Platform</h4><a href="app.html">Open App</a><a href="services.html#platform">How It Works</a><a href="about.html">For Providers</a><a href="about.html">For Patients</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="#" onclick="showToast('Privacy Policy page coming soon','info');return false;">Privacy Policy</a><a href="#" onclick="showToast('Terms of Service page coming soon','info');return false;">Terms of Service</a><a href="#" onclick="showToast('NDPR Compliance page coming soon','info');return false;">NDPR Compliance</a><a href="#" onclick="showToast('Cookie Policy page coming soon','info');return false;">Cookie Policy</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Thrivelink Health Limited. All rights reserved.</p>
+      <div class="footer-links"><a href="https://emltechstudio.site" target="_blank" rel="noopener">Made with care by EML Tech Studio</a></div>
+    </div>
+  </div>
+</footer>
+
+<a href="chatbot.html" target="_blank" rel="noopener" class="fab-chat" aria-label="Help Desk">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+</a>
+
+<script src="script.js"></script>
+<script>
+function showPlatform(platform) {
+  document.querySelectorAll('.platform-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.platform-content').forEach(function(c) { c.classList.remove('active'); });
+  event.target.classList.add('active');
+  document.getElementById(platform + '-steps').classList.add('active');
+}
+</script>
 </body>
 </html>

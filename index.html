@@ -1,217 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Thrivelink Health Limited - Bridging healthcare gaps in Nigeria through secure NIN-based patient records, emergency care search, and nationwide medical professional network.">
-    <meta name="keywords" content="healthcare, Nigeria, patient records, NIN, medical, hospital, doctor, pharmacist, emergency">
-    <meta name="theme-color" content="#0B3D91">
-    <title>Thrivelink Health Limited | National Healthcare Platform</title>
-    <link rel="icon" type="image/svg+xml" href="icons/icon.png">
-    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0B3D91">
+<meta name="description" content="Thrivelink Health Limited — Nigeria's Connected Healthcare Platform. Find doctors, manage patient records, and access emergency care.">
+<title>Thrivelink Health Limited — Nigeria's Connected Healthcare</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="icons/icon-72x72.png">
+<link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <img src="icons/icon.png" alt="Thrivelink" width="36" height="36" style="border-radius:8px;">
-                <span>Thrivelink</span>
-            </a>
-            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="nav-links" id="nav-links">
-                <a href="index.html" class="active">Home</a>
-                <a href="about.html">About</a>
-                <a href="services.html">Services</a>
-                <a href="contact.html">Contact</a>
-                <a href="app.html" class="btn-nav">Open App</a>
-            </div>
-        </div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo">
+      <div class="logo-mark"><img src="icons/icon-72x72.png" alt="Thrivelink" width="24" height="24" style="border-radius:6px;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';"><svg style="display:none;" viewBox="0 0 100 100" width="24" height="24"><rect width="100" height="100" rx="20" fill="white"/><path d="M50 25 L50 75 M25 50 L75 50" stroke="#0B3D91" stroke-width="12" stroke-linecap="round"/></svg></div>
+      <div class="logo-text-group"><div class="logo-name">Thrivelink</div><div class="logo-tag">Health Limited</div></div>
+    </a>
+    <nav class="header-nav">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="app.html" class="btn btn-green btn-sm">Open App</a>
     </nav>
+    <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Menu"><svg viewBox="0 0 24 24" width="20" height="20" fill="var(--text)"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></button>
+  </div>
+</header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-bg">
-            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1920&q=80" alt="Healthcare" loading="eager">
-            <div class="hero-overlay"></div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fas fa-shield-alt"></i>
-                <span>Secured by NIN</span>
-            </div>
-            <h1>Healthcare That <span class="highlight">Travels</span> With You</h1>
-            <p class="hero-subtitle">Nigeria's first NIN-based national health record system. Search for doctors, pharmacists, midwives, and all medical professionals near you — anytime, anywhere.</p>
-            <div class="hero-cta">
-                <a href="app.html" class="btn-primary btn-lg"><i class="fas fa-mobile-alt"></i> Get Started</a>
-                <a href="services.html" class="btn-outline btn-lg"><i class="fas fa-play-circle"></i> Learn More</a>
-            </div>
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <span class="stat-num">11-Digit</span>
-                    <span class="stat-label">Secure NIN ID</span>
-                </div>
-                <div class="hero-stat">
-                    <span class="stat-num">Nationwide</span>
-                    <span class="stat-label">Coverage</span>
-                </div>
-                <div class="hero-stat">
-                    <span class="stat-num">Instant</span>
-                    <span class="stat-label">Record Access</span>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileNav()"></div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="nav-link" style="color:var(--deep-blue);font-weight:700;">Home</a>
+  <a href="about.html" class="nav-link">About</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="contact.html" class="nav-link">Contact</a>
+  <a href="app.html" class="btn btn-green">Open App</a>
+</div>
 
-    <!-- Features Section -->
-    <section class="section features">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">What We Offer</span>
-                <h2>Built for Every Healthcare Need</h2>
-                <p>From hospitals to patients, Thrivelink connects the entire healthcare ecosystem</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-database"></i></div>
-                    <h3>NIN-Based Records</h3>
-                    <p>Every patient gets a secure, permanent health record tied to their National Identification Number. No duplicates, no lost files.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-search-location"></i></div>
-                    <h3>Find Care Near You</h3>
-                    <p>Search for doctors, pharmacists, midwives, dentists, and all medical professionals within any radius. Filter by profession and availability.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-hospital-user"></i></div>
-                    <h3>Hospital Dashboard</h3>
-                    <p>Full patient management for hospitals: create records, add medical remarks, track history, and update your facility information.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-user-md"></i></div>
-                    <h3>Worker Access</h3>
-                    <p>Medical workers get read-only access to patient records with NIN search. Secure, fast, and compliant with privacy standards.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-phone-alt"></i></div>
-                    <h3>Direct Contact</h3>
-                    <p>Call providers directly, view their office hours, get directions via Google Maps, and visit their websites — all in one tap.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
-                    <h3>PWA Ready</h3>
-                    <p>Install Thrivelink on your phone like a native app. Works offline, sends push notifications, and feels like a real product.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 5v6.09c0 5.05 3.84 9.76 9 10.91 5.16-1.15 9-5.86 9-10.91V5l-9-3z"/></svg>
+      Trusted Healthcare for Every Nigerian
+    </div>
+    <h1>Healthcare That <span class="highlight">Travels With You</span></h1>
+    <p>Thrivelink connects patients, hospitals, and health workers across Nigeria. Your medical history follows you — securely, instantly, anywhere.</p>
+    <div class="hero-cta">
+      <a href="app.html" class="btn btn-green btn-lg">Open the App</a>
+      <a href="install.html" class="btn btn-outline-white btn-lg">Install App</a>
+      <a href="services.html" class="btn btn-outline-white btn-lg">Our Services</a>
+    </div>
 
-    <!-- How It Works -->
-    <section class="section how-it-works bg-alt">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">How It Works</span>
-                <h2>Three Simple Steps</h2>
-            </div>
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-num">01</div>
-                    <div class="step-icon"><i class="fas fa-user-plus"></i></div>
-                    <h3>Register</h3>
-                    <p>Hospitals, workers, and patients create accounts with secure password + OTP verification.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">02</div>
-                    <div class="step-icon"><i class="fas fa-id-card"></i></div>
-                    <h3>Use Your NIN</h3>
-                    <p>Every patient record is tied to their 11-digit NIN. Search, access, and update records securely.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">03</div>
-                    <div class="step-icon"><i class="fas fa-heartbeat"></i></div>
-                    <h3>Get Care</h3>
-                    <p>Find nearby professionals, view their details, call them directly, and access your health records anywhere.</p>
-                </div>
-            </div>
+    <div class="slideshow-wrap">
+      <div class="slideshow-container">
+        <div class="slide active">
+          <div class="slide-content">
+            <div class="slide-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="white"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>
+            <h3>Find Care Near You</h3>
+            <p>Search for doctors, pharmacists, nurses, and hospitals within your location. Real-time distance calculation with Google Maps integration.</p>
+          </div>
         </div>
-    </section>
-
-    <!-- Professions Section -->
-    <section class="section professions">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">For Everyone</span>
-                <h2>All Medical Professions Supported</h2>
-                <p>From general practitioners to specialized surgeons — if you save lives, you belong here.</p>
-            </div>
-            <div class="professions-grid">
-                <div class="profession-item"><i class="fas fa-stethoscope"></i><span>Doctors</span></div>
-                <div class="profession-item"><i class="fas fa-user-nurse"></i><span>Nurses</span></div>
-                <div class="profession-item"><i class="fas fa-pills"></i><span>Pharmacists</span></div>
-                <div class="profession-item"><i class="fas fa-tooth"></i><span>Dentists</span></div>
-                <div class="profession-item"><i class="fas fa-vial"></i><span>Lab Technicians</span></div>
-                <div class="profession-item"><i class="fas fa-walking"></i><span>Physiotherapists</span></div>
-                <div class="profession-item"><i class="fas fa-baby"></i><span>Midwives</span></div>
-                <div class="profession-item"><i class="fas fa-x-ray"></i><span>Radiologists</span></div>
-                <div class="profession-item"><i class="fas fa-eye"></i><span>Optometrists</span></div>
-                <div class="profession-item"><i class="fas fa-heart"></i><span>Cardiologists</span></div>
-                <div class="profession-item"><i class="fas fa-brain"></i><span>Psychiatrists</span></div>
-                <div class="profession-item"><i class="fas fa-plus-circle"></i><span>And 100+ More</span></div>
-            </div>
+        <div class="slide">
+          <div class="slide-content">
+            <div class="slide-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="white"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.86-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg></div>
+            <h3>Connected Medical Records</h3>
+            <p>Your NIN-linked health record follows you to any hospital. No more lost files or repeated tests. Secure, private, and NDPR compliant.</p>
+          </div>
         </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="section cta">
-        <div class="container">
-            <div class="cta-box">
-                <h2>Ready to Transform Healthcare?</h2>
-                <p>Join thousands of hospitals, medical workers, and patients already using Thrivelink to bridge the healthcare gap in Nigeria.</p>
-                <a href="app.html" class="btn-primary btn-lg"><i class="fas fa-rocket"></i> Launch the App</a>
-            </div>
+        <div class="slide">
+          <div class="slide-content">
+            <div class="slide-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+            <h3>Verified Health Workers</h3>
+            <p>Every doctor, nurse, and pharmacist on our platform is verified with their medical license. Trust who you consult with.</p>
+          </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="logo">
-                        <img src="icons/icon.png" alt="Thrivelink" width="32" height="32" style="border-radius:8px;">
-                        <span>Thrivelink Health Limited</span>
-                    </div>
-                    <p>Bridging healthcare gaps across Nigeria through technology, security, and accessibility.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Platform</h4>
-                    <a href="app.html">Open App</a>
-                    <a href="install.html">Install PWA</a>
-                    <a href="services.html">Services</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Company</h4>
-                    <a href="about.html">About Us</a>
-                    <a href="contact.html">Contact</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Thrivelink Health Limited. All rights reserved.</p>
-                <p class="credit">Made with <span class="heart">&#10084;</span> by <a href="https://emltechstudio.site" target="_blank">EML Tech Studio</a></p>
-            </div>
+        <div class="slide">
+          <div class="slide-content">
+            <div class="slide-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+            <h3>Emergency Response</h3>
+            <p>In an emergency, find the nearest available hospital or health worker in seconds. Location-aware search prioritizes open providers.</p>
+          </div>
         </div>
-    </footer>
+      </div>
+      <button class="slide-nav prev" onclick="prevSlide()" aria-label="Previous">&#8249;</button>
+      <button class="slide-nav next" onclick="nextSlide()" aria-label="Next">&#8250;</button>
+      <div class="slide-dots">
+        <button class="slide-dot active" onclick="goToSlide(0)" aria-label="Slide 1"></button>
+        <button class="slide-dot" onclick="goToSlide(1)" aria-label="Slide 2"></button>
+        <button class="slide-dot" onclick="goToSlide(2)" aria-label="Slide 3"></button>
+        <button class="slide-dot" onclick="goToSlide(3)" aria-label="Slide 4"></button>
+      </div>
+    </div>
 
-    <script src="script.js"></script>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">Nationwide</div><div class="label">Coverage</div></div>
+      <div class="hero-stat"><div class="num">NIN-Linked</div><div class="label">Records</div></div>
+      <div class="hero-stat"><div class="num">24/7</div><div class="label">Emergency Access</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--off-white);">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="badge">What We Do</div>
+      <h2>Comprehensive Health Solutions</h2>
+      <p>From patient record management to emergency care coordination, Thrivelink is building the infrastructure for connected healthcare in Nigeria.</p>
+    </div>
+    <div class="preview-grid">
+      <div class="preview-card">
+        <div class="preview-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>
+        <h3>Health Consultancy</h3>
+        <p>Wellness programs, medical emergency solutions, health education, and corporate health talks tailored to your organization's needs.</p>
+        <a href="services.html" class="read-more">Learn more &rarr;</a>
+      </div>
+      <div class="preview-card">
+        <div class="preview-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.86-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg></div>
+        <h3>Medical Supplies</h3>
+        <p>Distribution of quality health products, PPE, and medical equipment to hospitals, clinics, and organizations nationwide.</p>
+        <a href="services.html" class="read-more">Learn more &rarr;</a>
+      </div>
+      <div class="preview-card">
+        <div class="preview-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+        <h3>Health Screenings</h3>
+        <p>Community health checks, workplace wellness programs, and preventive health campaigns. We bring healthcare to the people.</p>
+        <a href="services.html" class="read-more">Learn more &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-bottom:0;">
+  <div class="section-inner">
+    <div class="photo-banner" style="background-image:url('https://images.unsplash.com/photo-1643297654416-05795d62e39c?auto=format&fit=crop&w=1600&q=80');">
+      <div class="photo-banner-content">
+        <h3>Built With Nigeria's Healthcare Workers in Mind</h3>
+        <p>Designed alongside hospitals, clinics, and health professionals to fit how care actually happens on the ground.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section platform-section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="badge">Our Platform</div>
+      <h2>The Thrivelink Platform</h2>
+      <p>More than a service company — we are building the infrastructure for connected healthcare in Nigeria</p>
+    </div>
+    <div class="platform-grid">
+      <div class="platform-features">
+        <div class="platform-feature">
+          <div class="pf-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>
+          <div><h4>For Hospitals & Clinics</h4><p>Create patient records, search cross-facility histories by NIN, and add append-only clinical remarks.</p></div>
+        </div>
+        <div class="platform-feature">
+          <div class="pf-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+          <div><h4>For Patients</h4><p>No account creation needed. Access your medical history via OTP. View records, update contact details securely.</p></div>
+        </div>
+        <div class="platform-feature">
+          <div class="pf-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+          <div><h4>For Health Workers</h4><p>Register with your medical license. Get verified and appear in emergency provider searches. Read-only patient access.</p></div>
+        </div>
+        <div class="platform-feature">
+          <div class="pf-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M12 1L3 5v6.09c0 5.05 3.84 9.76 9 10.91 5.16-1.15 9-5.86 9-10.91V5l-9-3zm0 10.99h7c-.53 4.12-3.28 7.86-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg></div>
+          <div><h4>Privacy by Design</h4><p>Raw NINs are never stored. All identifiers are hashed. Clinical data is append-only and immutable. NDPR compliant.</p></div>
+        </div>
+        <div class="platform-feature">
+          <div class="pf-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <div><h4>Emergency Access</h4><p>Find the nearest hospital or verified health worker in seconds. Location-aware search with platform-registered providers prioritized.</p></div>
+        </div>
+      </div>
+      <div class="platform-visual">
+        <h3>Ready to Transform Healthcare?</h3>
+        <p>The Thrivelink platform is a Progressive Web App — install it on your phone, tablet, or desktop. It works offline, syncs when connected, and puts healthcare continuity in your pocket.</p>
+        <div class="platform-cta">
+          <a href="app.html" class="btn btn-green">Open App</a>
+          <a href="install.html" class="btn btn-outline-white">How to Install</a>
+        </div>
+        <p style="font-size:13px;opacity:0.7;margin-top:16px;">Available on Android, iOS, and all modern browsers</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--off-white);text-align:center;">
+  <div class="section-inner">
+    <h2 style="font-size:28px;font-weight:800;margin-bottom:12px;color:var(--deep-blue);">Ready to Get Started?</h2>
+    <p style="font-size:16px;color:var(--text-light);margin-bottom:24px;">Join thousands of Nigerians who trust Thrivelink for their healthcare needs.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="app.html" class="btn btn-primary btn-lg">Open the App</a>
+      <a href="contact.html" class="btn btn-outline btn-lg">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Thrivelink Health Limited</div>
+        <p>Connecting Health, Empowering Lives. A Nigerian healthcare company bridging gaps in healthcare delivery through technology, partnerships, and innovation.</p>
+        <div class="footer-tagline">Trust & Transparency in Every Interaction</div>
+      </div>
+      <div class="footer-col"><h4>Company</h4><a href="index.html">Home</a><a href="about.html">About Us</a><a href="services.html">Services</a><a href="contact.html">Contact</a></div>
+      <div class="footer-col"><h4>Platform</h4><a href="app.html">Open App</a><a href="services.html#platform">How It Works</a><a href="about.html">For Providers</a><a href="about.html">For Patients</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="#" onclick="showToast('Privacy Policy page coming soon','info');return false;">Privacy Policy</a><a href="#" onclick="showToast('Terms of Service page coming soon','info');return false;">Terms of Service</a><a href="#" onclick="showToast('NDPR Compliance page coming soon','info');return false;">NDPR Compliance</a><a href="#" onclick="showToast('Cookie Policy page coming soon','info');return false;">Cookie Policy</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Thrivelink Health Limited. All rights reserved.</p>
+      <div class="footer-links"><a href="https://emltechstudio.site" target="_blank" rel="noopener">Made with &hearts; by EML Tech Studio</a></div>
+    </div>
+  </div>
+</footer>
+
+<a href="chatbot.html" target="_blank" rel="noopener" class="fab-chat" aria-label="Help Desk">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+</a>
+
+<script src="script.js"></script>
 </body>
 </html>

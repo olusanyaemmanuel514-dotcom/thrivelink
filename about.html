@@ -1,192 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="About Thrivelink Health Limited - Our mission, vision, core values, and commitment to bridging healthcare gaps in Nigeria.">
-    <meta name="theme-color" content="#0B3D91">
-    <title>About Us - Thrivelink Health Limited</title>
-    <link rel="icon" type="image/svg+xml" href="icons/icon.png">
-    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0B3D91">
+<meta name="description" content="About Thrivelink Health Limited — Our mission, vision, core values, and commitment to bridging healthcare gaps in Nigeria.">
+<title>About Us — Thrivelink Health Limited</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="icons/icon-72x72.png">
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <img src="icons/icon.png" alt="Thrivelink" width="36" height="36" style="border-radius:8px;">
-                <span>Thrivelink</span>
-            </a>
-            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="nav-links" id="nav-links">
-                <a href="index.html">Home</a>
-                <a href="about.html" class="active">About</a>
-                <a href="services.html">Services</a>
-                <a href="contact.html">Contact</a>
-                <a href="app.html" class="btn-nav">Open App</a>
-            </div>
-        </div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo">
+      <div class="logo-mark"><img src="icons/icon-72x72.png" alt="Thrivelink" width="24" height="24" style="border-radius:6px;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';"><svg style="display:none;" viewBox="0 0 100 100" width="24" height="24"><rect width="100" height="100" rx="20" fill="white"/><path d="M50 25 L50 75 M25 50 L75 50" stroke="#0B3D91" stroke-width="12" stroke-linecap="round"/></svg></div>
+      <div class="logo-text-group"><div class="logo-name">Thrivelink</div><div class="logo-tag">Health Limited</div></div>
+    </a>
+    <nav class="header-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link active">About</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="app.html" class="btn btn-green btn-sm">Open App</a>
     </nav>
+    <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Menu"><svg viewBox="0 0 24 24" width="20" height="20" fill="var(--text)"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></button>
+  </div>
+</header>
 
-    <!-- Page Header -->
-    <section class="page-hero">
-        <div class="page-hero-bg">
-            <img src="https://images.unsplash.com/photo-1584515933487-779824d29309?w=1920&q=80" alt="About Thrivelink">
-            <div class="page-hero-overlay"></div>
-        </div>
-        <div class="page-hero-content">
-            <h1>About Thrivelink</h1>
-            <p>Building the future of healthcare in Nigeria, one record at a time.</p>
-        </div>
-    </section>
+<div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileNav()"></div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="about.html" class="nav-link" style="color:var(--deep-blue);font-weight:700;">About</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="contact.html" class="nav-link">Contact</a>
+  <a href="app.html" class="btn btn-green">Open App</a>
+</div>
 
-    <!-- Mission & Vision -->
-    <section class="section">
-        <div class="container">
-            <div class="mission-vision-grid">
-                <div class="mv-card">
-                    <div class="mv-icon"><i class="fas fa-bullseye"></i></div>
-                    <h2>Our Mission</h2>
-                    <p>To bridge the healthcare gap in Nigeria by creating a secure, accessible, and unified national health record system that empowers hospitals, medical workers, and patients with instant access to critical health information — anywhere, anytime.</p>
-                </div>
-                <div class="mv-card">
-                    <div class="mv-icon"><i class="fas fa-eye"></i></div>
-                    <h2>Our Vision</h2>
-                    <p>A Nigeria where no patient dies because their medical history is unknown. Where every hospital, clinic, and medical professional can access the full picture of a patient's health within seconds — powered by secure NIN-based identification.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="hero" style="min-height:50vh;padding:120px 24px 60px;">
+  <div class="hero-inner">
+    <div class="hero-badge">About Thrivelink</div>
+    <h1>Who We <span class="highlight">Are</span></h1>
+    <p>A Nigerian healthcare company committed to bridging gaps in healthcare delivery through technology, partnerships, and innovation.</p>
+  </div>
+</section>
 
-    <!-- Core Values -->
-    <section class="section bg-alt">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">What Drives Us</span>
-                <h2>Our Core Values</h2>
-            </div>
-            <div class="values-grid">
-                <div class="value-card">
-                    <div class="value-icon"><i class="fas fa-shield-alt"></i></div>
-                    <h3>Security First</h3>
-                    <p>Every record is protected. NIN-based encryption ensures that only authorized personnel can access patient data.</p>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon"><i class="fas fa-universal-access"></i></div>
-                    <h3>Accessibility</h3>
-                    <p>Healthcare should not be a privilege. We build for every Nigerian, from urban hospitals to rural clinics.</p>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon"><i class="fas fa-handshake"></i></div>
-                    <h3>Collaboration</h3>
-                    <p>Hospitals, workers, and patients work together. Thrivelink is the bridge that connects them all.</p>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon"><i class="fas fa-lightbulb"></i></div>
-                    <h3>Innovation</h3>
-                    <p>We continuously evolve. From PWA technology to AI-powered chat assistance, we stay ahead of the curve.</p>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon"><i class="fas fa-heart"></i></div>
-                    <h3>Compassion</h3>
-                    <p>Behind every record is a human being. We design with empathy for patients, families, and caregivers.</p>
-                </div>
-                <div class="value-card">
-                    <div class="value-icon"><i class="fas fa-balance-scale"></i></div>
-                    <h3>Integrity</h3>
-                    <p>We operate with transparency and honesty. Your data is yours. We never sell or misuse patient information.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="section">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-content">
+        <h3>About Thrivelink Health Limited</h3>
+        <p>Thrivelink Health Limited is a Nigerian healthcare company based in Abuja, FCT. We are focused on making quality, accessible, and affordable health solutions available to individuals, families, and organizations across Nigeria.</p>
+        <p>Our mission is to bridge gaps in healthcare delivery through reliable services by linking health products and strategic partnerships in line with national and global health standards.</p>
+        <p>We operate with strict adherence to environmental, social, and procurement standards. Every service is delivered with professionalism, confidentiality, and client-centered care.</p>
 
-    <!-- Why Thrivelink -->
-    <section class="section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">The Problem We Solve</span>
-                <h2>Why Thrivelink Exists</h2>
-            </div>
-            <div class="why-grid">
-                <div class="why-card">
-                    <div class="why-num">01</div>
-                    <h3>Fragmented Records</h3>
-                    <p>Patient records are scattered across different hospitals, clinics, and paper files. When a patient moves or visits a new facility, their history is lost.</p>
-                </div>
-                <div class="why-card">
-                    <div class="why-num">02</div>
-                    <h3>Emergency Delays</h3>
-                    <p>In emergencies, doctors waste precious minutes trying to understand a patient's allergies, blood type, and medical history. Every second counts.</p>
-                </div>
-                <div class="why-card">
-                    <div class="why-num">03</div>
-                    <h3>No Central Directory</h3>
-                    <p>Finding a nearby doctor, pharmacist, or midwife is difficult. Patients rely on word-of-mouth or travel long distances for basic care.</p>
-                </div>
-                <div class="why-card">
-                    <div class="why-num">04</div>
-                    <h3>Our Solution</h3>
-                    <p>Thrivelink unifies health records under a single NIN, creates a searchable directory of all medical professionals, and makes healthcare accessible to every Nigerian.</p>
-                </div>
-            </div>
+        <div style="margin-top:32px;padding:24px;background:var(--off-white);border-radius:var(--radius);border-left:4px solid var(--deep-blue);">
+          <h4 style="font-size:16px;font-weight:700;color:var(--deep-blue);margin-bottom:8px;">Our Vision</h4>
+          <p style="font-size:15px;color:var(--text-light);margin:0;">To be Nigeria's most trusted healthcare company, delivering innovative, accessible, and quality healthcare solutions that improve lives and promote healthier communities.</p>
         </div>
-    </section>
-
-    <!-- Team / Builder -->
-    <section class="section bg-alt">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Built With Passion</span>
-                <h2>Behind the Platform</h2>
-            </div>
-            <div class="builder-card">
-                <div class="builder-icon"><i class="fas fa-code"></i></div>
-                <h3>EML Tech Studio</h3>
-                <p>Thrivelink Health Limited was built by EML Tech Studio — a technology company committed to solving real-world problems through innovative software solutions. We believe technology should serve humanity, and healthcare is where it matters most.</p>
-                <a href="https://emltechstudio.site" target="_blank" class="btn-outline"><i class="fas fa-external-link-alt"></i> Visit EML Tech Studio</a>
-            </div>
+        <div style="margin-top:16px;padding:24px;background:var(--off-white);border-radius:var(--radius);border-left:4px solid var(--green);">
+          <h4 style="font-size:16px;font-weight:700;color:var(--deep-blue);margin-bottom:8px;">Our Mission</h4>
+          <p style="font-size:15px;color:var(--text-light);margin:0;">We are committed to providing exceptional healthcare services and products through professionalism, innovation, compassion, and integrity. By embracing modern medical practices and fostering strong partnerships, we strive to make quality healthcare affordable and accessible to every individual and community we serve.</p>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="logo">
-                        <img src="icons/icon.png" alt="Thrivelink" width="32" height="32" style="border-radius:8px;">
-                        <span>Thrivelink Health Limited</span>
-                    </div>
-                    <p>Bridging healthcare gaps across Nigeria through technology, security, and accessibility.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Platform</h4>
-                    <a href="app.html">Open App</a>
-                    <a href="install.html">Install PWA</a>
-                    <a href="services.html">Services</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Company</h4>
-                    <a href="about.html">About Us</a>
-                    <a href="contact.html">Contact</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Thrivelink Health Limited. All rights reserved.</p>
-                <p class="credit">Made with <span class="heart">&#10084;</span> by <a href="https://emltechstudio.site" target="_blank">EML Tech Studio</a></p>
-            </div>
+        <h3 style="margin-top:40px;">Our Core Values — T.H.R.I.V.E.</h3>
+        <div class="about-values">
+          <div class="value-item"><div class="v-letter">T</div><div class="v-text">Trust & Transparency</div></div>
+          <div class="value-item"><div class="v-letter">H</div><div class="v-text">Health First</div></div>
+          <div class="value-item"><div class="v-letter">R</div><div class="v-text">Reliability</div></div>
+          <div class="value-item"><div class="v-letter">I</div><div class="v-text">Innovation</div></div>
+          <div class="value-item"><div class="v-letter">V</div><div class="v-text">Value to Clients</div></div>
+          <div class="value-item"><div class="v-letter">E</div><div class="v-text">Excellence in Service</div></div>
         </div>
-    </footer>
+      </div>
+      <div class="about-visual">
+        <svg viewBox="0 0 24 24" width="64" height="64" fill="white" style="margin-bottom:20px;opacity:0.9;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <h4>"Connecting Health,<br>Empowering Lives"</h4>
+        <p>We believe every Nigerian deserves seamless access to their medical history, no matter which hospital or clinic they visit. Thrivelink makes that possible through technology, trust, and transparency.</p>
+        <div style="margin-top:24px;padding:20px;background:rgba(255,255,255,0.1);border-radius:var(--radius-sm);">
+          <div style="font-size:13px;opacity:0.8;margin-bottom:4px;">Headquarters</div>
+          <div style="font-size:15px;font-weight:600;">Abuja, FCT, Nigeria</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script src="script.js"></script>
+<section class="section" style="padding-bottom:0;">
+  <div class="section-inner">
+    <div class="photo-banner" style="background-image:url('https://images.unsplash.com/photo-1576669801945-7a346954da5a?auto=format&fit=crop&w=1600&q=80');">
+      <div class="photo-banner-content">
+        <h3>Rooted in Abuja, Reaching Across Nigeria</h3>
+        <p>From our headquarters in the FCT, Thrivelink coordinates a growing network of hospitals, clinics, and health workers nationwide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:linear-gradient(135deg,var(--off-white),#E8F5E9);text-align:center;">
+  <div class="section-inner">
+    <h2 style="font-size:28px;font-weight:800;margin-bottom:12px;color:var(--deep-blue);">Our Business Verticals</h2>
+    <p style="font-size:16px;color:var(--text-light);margin-bottom:32px;">Thrivelink operates across multiple healthcare domains to serve Nigeria comprehensively.</p>
+    <div class="preview-grid">
+      <div class="preview-card">
+        <div class="preview-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>
+        <h3>Hospital / Clinic</h3>
+        <p>Focus on patient-centered medical care and clinical excellence. Connected records, seamless referrals, and quality treatment.</p>
+      </div>
+      <div class="preview-card">
+        <div class="preview-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.86-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg></div>
+        <h3>Pharmaceutical Company</h3>
+        <p>Focus on the supply of safe, effective, and affordable medicines. Quality assurance in every product we distribute.</p>
+      </div>
+      <div class="preview-card">
+        <div class="preview-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+        <h3>Medical Laboratory</h3>
+        <p>Focus on accurate diagnostics and timely results. State-of-the-art testing with reliable turnaround times.</p>
+      </div>
+      <div class="preview-card">
+        <div class="preview-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+        <h3>Healthcare Consulting</h3>
+        <p>Focus on improving healthcare systems and organizational performance. Strategic guidance for institutions.</p>
+      </div>
+      <div class="preview-card">
+        <div class="preview-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="var(--deep-blue)"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>
+        <h3>Medical Equipment Supplier</h3>
+        <p>Focus on providing reliable medical technologies and equipment. From diagnostics to surgical tools.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--off-white);text-align:center;">
+  <div class="section-inner">
+    <h2 style="font-size:28px;font-weight:800;margin-bottom:12px;color:var(--deep-blue);">Ready to Connect?</h2>
+    <p style="font-size:16px;color:var(--text-light);margin-bottom:24px;">Explore our services or try the Thrivelink platform today.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="services.html" class="btn btn-primary">Our Services</a>
+      <a href="app.html" class="btn btn-green">Open App</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Thrivelink Health Limited</div>
+        <p>Connecting Health, Empowering Lives. A Nigerian healthcare company bridging gaps in healthcare delivery through technology, partnerships, and innovation.</p>
+        <div class="footer-tagline">Trust & Transparency in Every Interaction</div>
+      </div>
+      <div class="footer-col"><h4>Company</h4><a href="index.html">Home</a><a href="about.html">About Us</a><a href="services.html">Services</a><a href="contact.html">Contact</a></div>
+      <div class="footer-col"><h4>Platform</h4><a href="app.html">Open App</a><a href="services.html#platform">How It Works</a><a href="about.html">For Providers</a><a href="about.html">For Patients</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="#" onclick="showToast('Privacy Policy page coming soon','info');return false;">Privacy Policy</a><a href="#" onclick="showToast('Terms of Service page coming soon','info');return false;">Terms of Service</a><a href="#" onclick="showToast('NDPR Compliance page coming soon','info');return false;">NDPR Compliance</a><a href="#" onclick="showToast('Cookie Policy page coming soon','info');return false;">Cookie Policy</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Thrivelink Health Limited. All rights reserved.</p>
+      <div class="footer-links"><a href="https://emltechstudio.site" target="_blank" rel="noopener">Made with &hearts; by EML Tech Studio</a></div>
+    </div>
+  </div>
+</footer>
+
+<a href="chatbot.html" target="_blank" rel="noopener" class="fab-chat" aria-label="Help Desk">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+</a>
+
+<script src="script.js"></script>
 </body>
 </html>

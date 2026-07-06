@@ -1,160 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contact Thrivelink Health Limited - Get in touch with our team for support, partnerships, or inquiries.">
-    <meta name="theme-color" content="#0B3D91">
-    <title>Contact Us - Thrivelink Health Limited</title>
-    <link rel="icon" type="image/svg+xml" href="icons/icon.png">
-    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0B3D91">
+<meta name="description" content="Contact Thrivelink Health Limited — Get in touch for partnerships, inquiries, or support.">
+<title>Contact Us — Thrivelink Health Limited</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="icons/icon-72x72.png">
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <img src="icons/icon.png" alt="Thrivelink" width="36" height="36" style="border-radius:8px;">
-                <span>Thrivelink</span>
-            </a>
-            <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="nav-links" id="nav-links">
-                <a href="index.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="services.html">Services</a>
-                <a href="contact.html" class="active">Contact</a>
-                <a href="app.html" class="btn-nav">Open App</a>
-            </div>
-        </div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo">
+      <div class="logo-mark"><img src="icons/icon-72x72.png" alt="Thrivelink" width="24" height="24" style="border-radius:6px;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';"><svg style="display:none;" viewBox="0 0 100 100" width="24" height="24"><rect width="100" height="100" rx="20" fill="white"/><path d="M50 25 L50 75 M25 50 L75 50" stroke="#0B3D91" stroke-width="12" stroke-linecap="round"/></svg></div>
+      <div class="logo-text-group"><div class="logo-name">Thrivelink</div><div class="logo-tag">Health Limited</div></div>
+    </a>
+    <nav class="header-nav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="contact.html" class="nav-link active">Contact</a>
+      <a href="app.html" class="btn btn-green btn-sm">Open App</a>
     </nav>
+    <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Menu"><svg viewBox="0 0 24 24" width="20" height="20" fill="var(--text)"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></button>
+  </div>
+</header>
 
-    <section class="page-hero">
-        <div class="page-hero-bg">
-            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1920&q=80" alt="Contact">
-            <div class="page-hero-overlay"></div>
-        </div>
-        <div class="page-hero-content">
-            <h1>Contact Us</h1>
-            <p>We would love to hear from you. Reach out for support, partnerships, or inquiries.</p>
-        </div>
-    </section>
+<div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileNav()"></div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="about.html" class="nav-link">About</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="contact.html" class="nav-link" style="color:var(--deep-blue);font-weight:700;">Contact</a>
+  <a href="app.html" class="btn btn-green">Open App</a>
+</div>
 
-    <section class="section">
-        <div class="container">
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <h2>Get in Touch</h2>
-                    <p>Whether you are a hospital looking to join the network, a medical professional seeking access, or a patient with questions — we are here to help.</p>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h4>Email</h4>
-                            <p>support@thrivelink.health</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-globe"></i>
-                        <div>
-                            <h4>Website</h4>
-                            <p><a href="https://thrivelink.health" target="_blank">thrivelink.health</a></p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-building"></i>
-                        <div>
-                            <h4>Company</h4>
-                            <p>Thrivelink Health Limited</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-code"></i>
-                        <div>
-                            <h4>Built By</h4>
-                            <p><a href="https://emltechstudio.site" target="_blank">EML Tech Studio</a></p>
-                        </div>
-                    </div>
-                    <div class="contact-social">
-                        <h4>Follow Us</h4>
-                        <div class="social-links">
-                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact-form-wrapper">
-                    <h3>Send a Message</h3>
-                    <form class="contact-form" onsubmit="handleContactSubmit(event)">
-                        <div class="form-group">
-                            <label>Your Name</label>
-                            <input type="text" placeholder="Full name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" placeholder="you@email.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Subject</label>
-                            <select required>
-                                <option value="">Select a subject</option>
-                                <option value="support">Support / Help</option>
-                                <option value="partnership">Partnership Inquiry</option>
-                                <option value="hospital">Hospital Registration</option>
-                                <option value="feedback">Feedback</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Message</label>
-                            <textarea placeholder="How can we help you?" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
-                    </form>
-                </div>
+<section class="hero" style="min-height:50vh;padding:120px 24px 60px;">
+  <div class="hero-inner">
+    <div class="hero-badge">Get in Touch</div>
+    <h1>Contact <span class="highlight">Us</span></h1>
+    <p>We would love to hear from you. Reach out for partnerships, inquiries, or support.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-bottom:0;">
+  <div class="section-inner">
+    <div class="photo-banner" style="background-image:url('https://images.unsplash.com/photo-1576669801945-7a346954da5a?auto=format&fit=crop&w=1600&q=80');min-height:220px;">
+      <div class="photo-banner-content">
+        <h3>We're Here to Help</h3>
+        <p>Our team responds to every inquiry — partnerships, support, and general questions alike.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div>
+        <div class="contact-card">
+          <div class="cc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <div>
+            <h4>Headquarters</h4>
+            <p>Abuja, FCT, Nigeria</p>
+          </div>
+        </div>
+        <div class="contact-card" style="margin-top:16px;">
+          <div class="cc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+          <div>
+            <h4>Email</h4>
+            <p>contact@thrivelink.health</p>
+          </div>
+        </div>
+        <div class="contact-card" style="margin-top:16px;">
+          <div class="cc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+          <div>
+            <h4>Phone</h4>
+            <p>+234 XXX XXX XXXX</p>
+          </div>
+        </div>
+        <div class="contact-card" style="margin-top:16px;">
+          <div class="cc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+          <div>
+            <h4>Website</h4>
+            <p>thrivelink.health</p>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:20px;color:var(--deep-blue);">Send us a Message</h3>
+        <form id="contactForm" onsubmit="handleContactSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" id="cfFirstName" placeholder="Your first name" required>
             </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="logo">
-                        <img src="icons/icon.png" alt="Thrivelink" width="32" height="32" style="border-radius:8px;">
-                        <span>Thrivelink Health Limited</span>
-                    </div>
-                    <p>Bridging healthcare gaps across Nigeria through technology, security, and accessibility.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Platform</h4>
-                    <a href="app.html">Open App</a>
-                    <a href="install.html">Install PWA</a>
-                    <a href="services.html">Services</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Company</h4>
-                    <a href="about.html">About Us</a>
-                    <a href="contact.html">Contact</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" id="cfLastName" placeholder="Your last name" required>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Thrivelink Health Limited. All rights reserved.</p>
-                <p class="credit">Made with <span class="heart">&#10084;</span> by <a href="https://emltechstudio.site" target="_blank">EML Tech Studio</a></p>
-            </div>
-        </div>
-    </footer>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="cfEmail" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <select id="cfSubject" required>
+              <option value="">Select a subject</option>
+              <option value="partnership">Partnership Inquiry</option>
+              <option value="service">Service Request</option>
+              <option value="support">Support</option>
+              <option value="feedback">Feedback</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea id="cfMessage" rows="5" placeholder="Tell us how we can help..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script src="script.js"></script>
+<section class="section" style="background:linear-gradient(135deg,var(--off-white),#E8F5E9);text-align:center;">
+  <div class="section-inner">
+    <h2 style="font-size:28px;font-weight:800;margin-bottom:12px;color:var(--deep-blue);">Visit Our Help Desk</h2>
+    <p style="font-size:16px;color:var(--text-light);margin-bottom:24px;">Need immediate assistance? Chat with our help desk for quick answers.</p>
+    <a href="chatbot.html" class="btn btn-green btn-lg">Open Help Desk</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Thrivelink Health Limited</div>
+        <p>Connecting Health, Empowering Lives. A Nigerian healthcare company bridging gaps in healthcare delivery through technology, partnerships, and innovation.</p>
+        <div class="footer-tagline">Trust & Transparency in Every Interaction</div>
+      </div>
+      <div class="footer-col"><h4>Company</h4><a href="index.html">Home</a><a href="about.html">About Us</a><a href="services.html">Services</a><a href="contact.html">Contact</a></div>
+      <div class="footer-col"><h4>Platform</h4><a href="app.html">Open App</a><a href="services.html#platform">How It Works</a><a href="about.html">For Providers</a><a href="about.html">For Patients</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="#" onclick="showToast('Privacy Policy page coming soon','info');return false;">Privacy Policy</a><a href="#" onclick="showToast('Terms of Service page coming soon','info');return false;">Terms of Service</a><a href="#" onclick="showToast('NDPR Compliance page coming soon','info');return false;">NDPR Compliance</a><a href="#" onclick="showToast('Cookie Policy page coming soon','info');return false;">Cookie Policy</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Thrivelink Health Limited. All rights reserved.</p>
+      <div class="footer-links"><a href="https://emltechstudio.site" target="_blank" rel="noopener">Made with &hearts; by EML Tech Studio</a></div>
+    </div>
+  </div>
+</footer>
+
+<a href="chatbot.html" target="_blank" rel="noopener" class="fab-chat" aria-label="Help Desk">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+</a>
+
+<script src="script.js"></script>
+<script>
+function handleContactSubmit(e) {
+  e.preventDefault();
+  showToast('Message sent successfully! We will get back to you soon.', 'success');
+  document.getElementById('contactForm').reset();
+}
+</script>
 </body>
 </html>
