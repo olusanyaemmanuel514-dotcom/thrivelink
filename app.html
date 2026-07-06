@@ -389,7 +389,7 @@ body {
     </div>
     <div id="workerLoginForm">
       <div class="card">
-        <div class="form-group"><label>Username</label><input type="text" id="workLoginUsername" placeholder="Your username"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="workLoginEmail" placeholder="you@email.com"></div>
         <div class="form-group"><label>Password</label><div class="password-wrap"><input type="password" id="workLoginPassword" placeholder="Your password"><button type="button" class="password-toggle" onclick="togglePassword('workLoginPassword', this)" aria-label="Show password"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
         <button class="btn btn-primary" onclick="workerLogin()">Log In</button>
         <p style="text-align:center;margin-top:16px;font-size:13px;"><a href="#" onclick="showForgotPassword('worker');return false;" style="color:var(--deep-blue);">Forgot password?</a></p>
@@ -398,12 +398,12 @@ body {
     <div id="workerSignupForm" style="display:none;">
       <div class="card">
         <div class="form-group"><label>Full Name *</label><input type="text" id="workSignupName" placeholder="Dr. John Doe"></div>
-        <div class="form-group"><label>Username *</label><input type="text" id="workSignupUsername" placeholder="Choose a username"></div>
-        <div class="form-row">
+                <div class="form-row">
           <div class="form-group"><label>Email *</label><input type="email" id="workSignupEmail" placeholder="you@email.com"></div>
           <div class="form-group"><label>Phone *</label><input type="tel" id="workSignupPhone" placeholder="+234..."></div>
         </div>
         <div class="form-group"><label>Password *</label><div class="password-wrap"><input type="password" id="workSignupPassword" placeholder="Min 8 characters"><button type="button" class="password-toggle" onclick="togglePassword('workSignupPassword', this)" aria-label="Show password"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        <div class="form-group"><label>Confirm Password *</label><div class="password-wrap"><input type="password" id="workSignupConfirmPassword" placeholder="Re-enter password"><button type="button" class="password-toggle" onclick="togglePassword('workSignupConfirmPassword', this)" aria-label="Show password"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
         <div class="form-group"><label>Medical License Number *</label><input type="text" id="workSignupLicense" placeholder="Your license number"></div>
         <div class="form-group">
           <label>Profession *</label>
@@ -578,6 +578,9 @@ body {
   <div class="container">
     <div class="card">
       <input type="hidden" id="remarkPatNIN">
+      <div class="form-group"><label>Subject *</label><input type="text" id="remarkSubject" placeholder="e.g. Follow-up consultation, Diagnosis"></div>
+      <div class="form-group"><label>Doctor / Staff Name *</label><input type="text" id="remarkDoctorName" placeholder="Attending doctor's name"></div>
+      <div class="form-group"><label>Date *</label><input type="date" id="remarkDate"></div>
       <div class="form-group"><label>Clinical Remark *</label><textarea id="remarkText" rows="6" placeholder="Enter your clinical observation, diagnosis, or treatment notes..."></textarea></div>
       <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">Remarks are append-only and cannot be deleted. All entries are timestamped and attributed.</p>
       <button class="btn btn-green" onclick="saveRemark()">Save Remark</button>
@@ -760,6 +763,16 @@ async function apiCall(method, endpoint, body) {
   }
 }
 
+// NOTE: per the API spec, hospital location updates take latitude/longitude as
+// query parameters, while worker location updates take them in the JSON body.
+function updateEntityLocation(lat, lon) {
+  if (currentRole === 'hospital') {
+    const qs = '?latitude=' + encodeURIComponent(lat) + '&longitude=' + encodeURIComponent(lon);
+    return apiCall('POST', '/hospitals/location/update' + qs);
+  }
+  return apiCall('POST', '/workers/location/update', { latitude: lat, longitude: lon });
+}
+
 // === NAVIGATION ===
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
@@ -831,8 +844,7 @@ function autoDetectLocation() {
       const lat = pos.coords.latitude;
       const lon = pos.coords.longitude;
       if (currentToken && currentRole) {
-        const endpoint = currentRole === 'hospital' ? '/hospitals/location/update' : '/workers/location/update';
-        apiCall('POST', endpoint, { latitude: lat, longitude: lon })
+        updateEntityLocation(lat, lon)
           .then(function() { showToast('Location detected and saved!', 'success'); })
           .catch(function(e) { showToast('Location saved locally. Will sync later.', 'info'); });
       }
@@ -881,8 +893,8 @@ function hospitalSignup() {
   });
 
   const data = {
-    name: name, admin_username: username, admin_email: email,
-    admin_phone: phone, password: password, address: address,
+    name: name, admin_username: username, contact_email: email,
+    contact_phone: phone, password: password, address: address,
     office_hours: hours
   };
 
@@ -906,11 +918,11 @@ function showHospitalTab(tab) {
 
 // === WORKER AUTH ===
 function workerLogin() {
-  const username = $('workLoginUsername').value.trim();
+  const email = $('workLoginEmail').value.trim();
   const password = $('workLoginPassword').value;
-  if (!username || !password) { showToast('Please fill all fields', 'error'); return; }
+  if (!email || !password) { showToast('Please fill all fields', 'error'); return; }
 
-  apiCall('POST', '/workers/login', { username: username, password: password })
+  apiCall('POST', '/workers/login', { email: email, password: password })
     .then(function(data) {
       saveAuth(data.access_token, 'worker', { name: data.name, entity_id: data.entity_id });
       showToast('Welcome, ' + data.name + '!', 'success');
@@ -921,16 +933,19 @@ function workerLogin() {
 
 function workerSignup() {
   const name = $('workSignupName').value.trim();
-  const username = $('workSignupUsername').value.trim();
   const email = $('workSignupEmail').value.trim();
   const phone = $('workSignupPhone').value.trim();
   const password = $('workSignupPassword').value;
+  const confirmPassword = $('workSignupConfirmPassword').value;
   const license = $('workSignupLicense').value.trim();
   const profession = $('workSignupProfession').value;
   const address = $('workSignupAddress').value.trim();
 
-  if (!name || !username || !email || !phone || !password || !license || !profession || !address) {
+  if (!name || !email || !phone || !password || !confirmPassword || !license || !profession || !address) {
     showToast('Please fill all required fields', 'error'); return;
+  }
+  if (password !== confirmPassword) {
+    showToast('Passwords do not match', 'error'); return;
   }
 
   const hours = {};
@@ -943,8 +958,8 @@ function workerSignup() {
   });
 
   const data = {
-    name: name, username: username, email: email, phone: phone, password: password,
-    medical_license: license, profession: profession, address: address,
+    name: name, email: email, phone: phone, password: password, confirm_password: confirmPassword,
+    license_number: license, profession: profession, address: address,
     office_hours: hours
   };
 
@@ -1017,8 +1032,8 @@ function renderHospitalProfile(profile) {
     '</div>' +
     '<div class="card">' +
     '<div class="card-title">Contact Information</div>' +
-    '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Email:</span> ' + escapeHtml(profile.admin_email || profile.email || 'N/A') + '</div>' +
-    '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Phone:</span> ' + escapeHtml(profile.admin_phone || profile.phone || 'N/A') + '</div>' +
+    '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Email:</span> ' + escapeHtml(profile.contact_email || profile.admin_email || profile.email || 'N/A') + '</div>' +
+    '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Phone:</span> ' + escapeHtml(profile.contact_phone || profile.admin_phone || profile.phone || 'N/A') + '</div>' +
     '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Address:</span> ' + escapeHtml(profile.address || 'N/A') + '</div>' +
     '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">License:</span> ' + escapeHtml(profile.license_number || profile.medical_license || 'N/A') + '</div>' +
     '</div>';
@@ -1045,8 +1060,8 @@ function savePatient() {
   }
 
   const data = {
-    nin: formatNIN(nin), name: name, date_of_birth: dob, gender: gender,
-    phone: phone, address: address, blood_type: bloodType || null,
+    nin: formatNIN(nin), full_name: name, date_of_birth: dob, sex: gender,
+    phone: phone, address: address, blood_group: bloodType || null,
     allergies: allergies || null
   };
 
@@ -1079,22 +1094,24 @@ function renderPatientFull(data, containerId, canAddRemark) {
   if (data.remarks && data.remarks.length > 0) {
     remarksHtml = '<h3 style="margin:20px 0 12px;font-size:14px;font-weight:700;color:var(--deep-blue);">Medical Remarks</h3>';
     data.remarks.forEach(function(r) {
+      const remarkDate = r.date || r.created_at;
       remarksHtml += '<div class="remark-item">' +
-        '<div class="remark-header"><span class="remark-author">' + escapeHtml(r.created_by_name || 'Unknown') + '</span>' +
-        '<span class="remark-date">' + escapeHtml(r.created_at ? new Date(r.created_at).toLocaleDateString() : '') + '</span></div>' +
-        '<div class="remark-text">' + escapeHtml(r.remark_text) + '</div></div>';
+        '<div class="remark-header"><span class="remark-author">' + escapeHtml(r.doctor_name || r.created_by_name || 'Unknown') + '</span>' +
+        '<span class="remark-date">' + escapeHtml(remarkDate ? new Date(remarkDate).toLocaleDateString() : '') + '</span></div>' +
+        (r.subject ? '<div style="font-size:12px;font-weight:700;color:var(--text-light);margin-bottom:4px;">' + escapeHtml(r.subject) + '</div>' : '') +
+        '<div class="remark-text">' + escapeHtml(r.full_text || r.remark_text || '') + '</div></div>';
     });
   }
 
   container.innerHTML = '<div class="card">' +
-    '<div class="card-title">' + escapeHtml(data.name) + '</div>' +
+    '<div class="card-title">' + escapeHtml(data.full_name || data.name || 'Unknown') + '</div>' +
     '<div class="card-subtitle">NIN: ***' + escapeHtml(data.nin ? data.nin.slice(-4) : '****') + '</div>' +
     '<div style="margin-top:12px;">' +
     '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">DOB:</span> ' + escapeHtml(data.date_of_birth || 'N/A') + '</div>' +
-    '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Gender:</span> ' + escapeHtml(data.gender || 'N/A') + '</div>' +
+    '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Gender:</span> ' + escapeHtml(data.sex || data.gender || 'N/A') + '</div>' +
     '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Phone:</span> ' + escapeHtml(data.phone || 'N/A') + '</div>' +
     '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Address:</span> ' + escapeHtml(data.address || 'N/A') + '</div>' +
-    '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Blood Type:</span> ' + escapeHtml(data.blood_type || 'N/A') + '</div>' +
+    '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Blood Type:</span> ' + escapeHtml(data.blood_group || data.blood_type || 'N/A') + '</div>' +
     '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Allergies:</span> ' + escapeHtml(data.allergies || 'None recorded') + '</div>' +
     '</div>' +
     remarksHtml +
@@ -1104,15 +1121,29 @@ function renderPatientFull(data, containerId, canAddRemark) {
 
 function showAddRemark(nin) {
   $('remarkPatNIN').value = nin;
+  $('remarkDoctorName').value = (currentUser && currentUser.name) ? currentUser.name : '';
+  $('remarkDate').value = new Date().toISOString().slice(0, 10);
   showScreen('screenAddRemark');
 }
 
 function saveRemark() {
   const nin = $('remarkPatNIN').value;
+  const subject = $('remarkSubject').value.trim();
+  const doctorName = $('remarkDoctorName').value.trim();
+  const date = $('remarkDate').value;
   const text = $('remarkText').value.trim();
-  if (!text) { showToast('Please enter a remark', 'error'); return; }
 
-  apiCall('POST', '/hospitals/remarks', { patient_nin: nin, remark_text: text })
+  if (!subject || !doctorName || !date || !text) {
+    showToast('Please fill all required fields', 'error'); return;
+  }
+
+  // NOTE: backend expects "patient_id" — using the patient's NIN here since that is
+  // the only identifier the frontend currently holds. Confirm with backend whether
+  // patient_id should instead be an internal record id distinct from the NIN.
+  apiCall('POST', '/hospitals/remarks', {
+    patient_id: nin, subject: subject, full_text: text,
+    doctor_name: doctorName, date: date
+  })
     .then(function() {
       showToast('Remark added successfully', 'success');
       showScreen('screenHospitalDashboard');
@@ -1312,8 +1343,7 @@ function updateLocation() {
     function(pos) {
       const lat = pos.coords.latitude;
       const lon = pos.coords.longitude;
-      const endpoint = currentRole === 'hospital' ? '/hospitals/location/update' : '/workers/location/update';
-      apiCall('POST', endpoint, { latitude: lat, longitude: lon })
+      updateEntityLocation(lat, lon)
         .then(function() { showToast('Location updated!', 'success'); })
         .catch(function(e) { showToast(e.message, 'error'); });
     },
