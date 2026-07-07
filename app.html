@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0B3D91">
+<meta name="description" content="Thrivelink Health App - Nigeria's Connected Healthcare Platform">
+<title>Thrivelink Health</title>
+<link rel="icon" href="icons/icon-72x72.png">
+<link rel="manifest" href="manifest.json">
+<style>
+:root {
+  --deep-blue: #0B3D91; --deep-blue-dark: #082d6d; --deep-blue-light: #1565C0;
+  --green: #27AE60; --green-light: #2ECC71; --green-dark: #1E8449;
+  --white: #FFFFFF; --off-white: #F8FAFC; --light-gray: #F1F5F9;
+  --text: #1E293B; --text-light: #64748B; --text-muted: #94A3B8;
+  --border: #E2E8F0; --danger: #DC2626;
+  --shadow: 0 4px 20px rgba(11,61,145,0.08); --shadow-lg: 0 12px 40px rgba(11,61,145,0.12);
+  --radius: 16px; --radius-sm: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior:smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--off-white); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--light-gray); }
+::-webkit-scrollbar-thumb { background: var(--deep-blue); border-radius: 3px; }
+
+.screen { display: none; min-height: 100vh; padding-bottom: 80px; }
+.screen.active { display: block; animation: screenIn 0.3s ease; }
+@keyframes screenIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.app-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, var(--deep-blue), var(--green-dark)); color: white; padding: 16px 20px; }
+.app-header-inner { display: flex; align-items: center; justify-content: space-between; max-width: 600px; margin: 0 auto; }
+.app-header h1 { font-size: 18px; font-weight: 700; }
+.app-header-btn { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.15); border: none; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+.container { max-width: 600px; margin: 0 auto; padding: 20px; }
+
+.card { background: white; border-radius: var(--radius); padding: 20px; border: 1px solid var(--border); box-shadow: var(--shadow); margin-bottom: 16px; }
+.card-title { font-size: 16px; font-weight: 700; color: var(--deep-blue); margin-bottom: 4px; }
+.card-subtitle { font-size: 13px; color: var(--text-light); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: var(--radius-sm); border: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; width: 100%; }
+.btn-primary { background: linear-gradient(135deg, var(--deep-blue), var(--deep-blue-light)); color: white; box-shadow: 0 4px 12px rgba(11,61,145,0.25); }
+.btn-green { background: linear-gradient(135deg, var(--green), var(--green-light)); color: white; box-shadow: 0 4px 12px rgba(39,174,96,0.25); }
+.btn-outline { background: transparent; color: var(--deep-blue); border: 1.5px solid var(--deep-blue); }
+.btn-sm { padding: 8px 16px; font-size: 13px; width: auto; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 14px; font-family: inherit; background: var(--off-white); transition: all 0.2s; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--deep-blue); box-shadow: 0 0 0 3px rgba(11,61,145,0.1); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+.role-card { background: white; border-radius: var(--radius); padding: 24px; border: 2px solid var(--border); text-align: center; cursor: pointer; transition: all 0.2s; }
+.role-card:hover { border-color: var(--deep-blue); transform: translateY(-2px); box-shadow: var(--shadow); }
+.role-card.selected { border-color: var(--deep-blue); background: rgba(11,61,145,0.03); }
+.role-icon { width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; }
+.role-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.role-card p { font-size: 12px; color: var(--text-light); }
+
+.tabs { display: flex; gap: 4px; background: var(--light-gray); border-radius: var(--radius-sm); padding: 4px; margin-bottom: 20px; }
+.tab { flex: 1; padding: 10px; border-radius: 8px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: var(--text-light); cursor: pointer; transition: all 0.2s; }
+.tab.active { background: white; color: var(--deep-blue); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+.search-bar { display: flex; gap: 12px; margin-bottom: 20px; }
+.search-bar input { flex: 1; padding: 14px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 14px; background: white; }
+.search-bar input:focus { outline: none; border-color: var(--deep-blue); }
+.search-bar button { padding: 14px 20px; border-radius: var(--radius-sm); border: none; background: var(--deep-blue); color: white; font-weight: 600; cursor: pointer; }
+
+.result-card { background: white; border-radius: var(--radius); padding: 20px; border: 1px solid var(--border); margin-bottom: 12px; transition: all 0.2s; }
+.result-card:hover { border-color: var(--deep-blue); box-shadow: var(--shadow); }
+.result-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.result-name { font-size: 16px; font-weight: 700; color: var(--deep-blue); }
+.result-type { font-size: 11px; padding: 4px 10px; border-radius: 20px; background: var(--light-gray); color: var(--text-light); font-weight: 600; text-transform: uppercase; }
+.result-detail { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-light); margin-bottom: 6px; }
+.result-actions { display: flex; gap: 8px; margin-top: 12px; }
+.result-actions .btn { width: auto; flex: 1; padding: 10px; font-size: 13px; }
+
+.empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); }
+.empty-state svg { margin-bottom: 16px; opacity: 0.5; }
+.empty-state h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; color: var(--text-light); }
+
+.toast-container { position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 8px; }
+.toast { padding: 14px 20px; border-radius: var(--radius-sm); color: white; font-size: 14px; font-weight: 500; box-shadow: var(--shadow-lg); animation: toastIn 0.3s ease; display: flex; align-items: center; gap: 10px; max-width: 320px; }
+.toast.success { background: var(--green); }
+.toast.error { background: var(--danger); }
+.toast.info { background: var(--deep-blue-light); }
+@keyframes toastIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+
+.loading { display: flex; align-items: center; justify-content: center; padding: 40px; }
+.spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--deep-blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.fab-chat { position: fixed; bottom: 24px; right: 24px; z-index: 500; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--deep-blue), var(--green)); color: white; border: none; box-shadow: 0 4px 20px rgba(11,61,145,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+.fab-chat:hover { transform: scale(1.1); }
+
+.profile-header { text-align: center; padding: 32px 20px; background: linear-gradient(135deg, var(--deep-blue), var(--green-dark)); color: white; border-radius: var(--radius); margin-bottom: 20px; }
+.profile-avatar { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 28px; font-weight: 800; }
+.profile-name { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.profile-role { font-size: 13px; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.stat-card { background: white; border-radius: var(--radius-sm); padding: 16px; text-align: center; border: 1px solid var(--border); }
+.stat-num { font-size: 24px; font-weight: 800; color: var(--deep-blue); }
+.stat-label { font-size: 11px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+
+.remark-item { padding: 16px; background: var(--off-white); border-radius: var(--radius-sm); margin-bottom: 12px; border-left: 3px solid var(--green); }
+.remark-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.remark-author { font-size: 13px; font-weight: 700; color: var(--deep-blue); }
+.remark-date { font-size: 11px; color: var(--text-muted); }
+.remark-text { font-size: 14px; color: var(--text); line-height: 1.6; }
+
+.hours-grid { display: grid; grid-template-columns: 100px 1fr 1fr; gap: 8px; align-items: center; margin-bottom: 8px; }
+.hours-grid label { font-size: 13px; font-weight: 600; }
+.hours-grid input { padding: 8px 12px; font-size: 13px; }
+
+.password-wrap { position: relative; }
+.password-wrap input { padding-right: 44px; }
+.password-toggle { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-light); border-radius: 8px; transition: all 0.15s; }
+.password-toggle:hover { background: var(--light-gray); color: var(--deep-blue); }
+
+.edit-section { display: none; }
+.edit-section.active { display: block; }
+.info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.info-row:last-child { border-bottom: none; }
+.info-label { font-weight: 600; color: var(--text-light); }
+.info-value { color: var(--text); text-align: right; max-width: 60%; }
+
+@media (max-width: 480px) {
+  .role-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .hours-grid { grid-template-columns: 80px 1fr 1fr; }
+  .container { padding: 16px; }
+}
+
+#splashScreen { position: fixed; inset: 0; z-index: 10000; background: linear-gradient(135deg, #0B3D91, #1E8449); display: flex; flex-direction: column; align-items: center; justify-content: center; animation: splashFade 0.5s ease 1.8s forwards; }
+@keyframes splashFade { 0% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; pointer-events: none; } }
+.splash-logo { width: 80px; height: 80px; border-radius: 20px; background: white; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; animation: splashPulse 1.5s ease infinite; }
+@keyframes splashPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+.splash-title { font-size: 26px; font-weight: 800; color: white; margin-bottom: 6px; }
+.splash-subtitle { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 24px; }
+.splash-dots { display: flex; gap: 8px; }
+.splash-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); animation: splashDot 1s ease infinite; }
+.splash-dot:nth-child(2) { animation-delay: 0.2s; }
+.splash-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes splashDot { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+</style>
+</head>
+<body>
+
+<div id="splashScreen">
+  <div class="splash-logo">
+    <img src="icons/icon-192x192.png" alt="Thrivelink" width="48" height="48" style="border-radius:12px;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+    <svg style="display:none;" width="40" height="40" viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="white"/><path d="M50 30 L50 70 M30 50 L70 50" stroke="#0B3D91" stroke-width="10" stroke-linecap="round"/></svg>
+  </div>
+  <div class="splash-title">Thrivelink</div>
+  <div class="splash-subtitle">Health Limited</div>
+  <div class="splash-dots"><div class="splash-dot"></div><div class="splash-dot"></div><div class="splash-dot"></div></div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ==================== ROLE SELECT ==================== -->
+<div class="screen" id="screenRoleSelect">
+  <div class="app-header">
+    <div class="app-header-inner"><h1>Welcome to Thrivelink</h1></div>
+  </div>
+  <div class="container">
+    <p style="text-align:center;color:var(--text-light);margin-bottom:24px;font-size:14px;">Select how you want to use the platform</p>
+    <div class="role-grid">
+      <div class="role-card" onclick="selectRole('hospital')">
+        <div class="role-icon" style="background:linear-gradient(135deg,#0B3D91,#1565C0);">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg>
+        </div>
+        <h3>Hospital / Clinic</h3>
+        <p>Create patient records, search histories, add remarks</p>
+      </div>
+      <div class="role-card" onclick="selectRole('worker')">
+        <div class="role-icon" style="background:linear-gradient(135deg,#27AE60,#2ECC71);">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </div>
+        <h3>Health Worker</h3>
+        <p>View patient records, update your profile</p>
+      </div>
+      <div class="role-card" onclick="selectRole('patient')">
+        <div class="role-icon" style="background:linear-gradient(135deg,#E67E22,#F39C12);">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+        </div>
+        <h3>Patient</h3>
+        <p>View your medical records with NIN + OTP</p>
+      </div>
+      <div class="role-card" onclick="selectRole('findcare')">
+        <div class="role-icon" style="background:linear-gradient(135deg,#8E44AD,#9B59B6);">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        </div>
+        <h3>Find Care</h3>
+        <p>Search hospitals and health workers near you</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:24px;">
+      <a href="index.html" style="color:var(--text-light);font-size:13px;text-decoration:none;">Back to Website</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== HOSPITAL AUTH ==================== -->
+<div class="screen" id="screenHospitalAuth">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <button class="app-header-btn" onclick="showScreen('screenRoleSelect')"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <h1>Hospital Account</h1><div style="width:36px;"></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="tabs">
+      <button class="tab active" onclick="showHospitalTab('login')">Log In</button>
+      <button class="tab" onclick="showHospitalTab('signup')">Sign Up</button>
+    </div>
+    <div id="hospitalLoginForm">
+      <div class="card">
+        <div class="form-group"><label>Admin Username</label><input type="text" id="hospLoginUsername" placeholder="Your admin username"></div>
+        <div class="form-group"><label>Password</label><div class="password-wrap"><input type="password" id="hospLoginPassword" placeholder="Your password"><button type="button" class="password-toggle" onclick="togglePassword('hospLoginPassword', this)" aria-label="Show password"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        <button class="btn btn-primary" onclick="hospitalLogin()">Log In</button>
+        <p style="text-align:center;margin-top:16px;font-size:13px;"><a href="#" onclick="showForgotPassword('hospital');return false;" style="color:var(--deep-blue);">Forgot password?</a></p>
+      </div>
+    </div>
+    <div id="hospitalSignupForm" style="display:none;">
+      <div class="card">
+        <div class="form-group"><label>Hospital Name *</label><input type="text" id="hospSignupName" placeholder="e.g. City General Hospital"></div>
+        <div class="form-group"><label>Admin Username *</label><input type="text" id="hospSignupUsername" placeholder="Choose a username"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Admin Email *</label><input type="email" id="hospSignupEmail" placeholder="admin@hospital.com"></div>
+          <div class="form-group"><label>Admin Phone *</label><input type="tel" id="hospSignupPhone" placeholder="+234..."></div>
+        </div>
+        <div class="form-group"><label>Password *</label><div class="password-wrap"><input type="password" id="hospSignupPassword" placeholder="Min 6 characters"><button type="button" class="password-toggle" onclick="togglePassword('hospSignupPassword', this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        <div class="form-group"><label>Confirm Password *</label><div class="password-wrap"><input type="password" id="hospSignupConfirmPassword" placeholder="Re-enter password"><button type="button" class="password-toggle" onclick="togglePassword('hospSignupConfirmPassword', this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        <div class="form-group"><label>Full Address *</label><textarea id="hospSignupAddress" rows="2" placeholder="Street, City, State"></textarea></div>
+        <div class="form-group"><label>Website</label><input type="text" id="hospSignupWebsite" placeholder="https://... (optional)"></div>
+        <div class="form-group"><label>Google Maps Link</label><input type="text" id="hospSignupMapLink" placeholder="https://maps.google.com/... (optional)"></div>
+        <div class="form-group"><label>Office Hours</label>
+          <div class="hours-grid">
+            <label>Mon</label><input type="time" id="hospHours_mon_open" value="08:00"><input type="time" id="hospHours_mon_close" value="18:00">
+            <label>Tue</label><input type="time" id="hospHours_tue_open" value="08:00"><input type="time" id="hospHours_tue_close" value="18:00">
+            <label>Wed</label><input type="time" id="hospHours_wed_open" value="08:00"><input type="time" id="hospHours_wed_close" value="18:00">
+            <label>Thu</label><input type="time" id="hospHours_thu_open" value="08:00"><input type="time" id="hospHours_thu_close" value="18:00">
+            <label>Fri</label><input type="time" id="hospHours_fri_open" value="08:00"><input type="time" id="hospHours_fri_close" value="18:00">
+            <label>Sat</label><input type="time" id="hospHours_sat_open" value="09:00"><input type="time" id="hospHours_sat_close" value="14:00">
+            <label>Sun</label><input type="time" id="hospHours_sun_open" value=""><input type="time" id="hospHours_sun_close" value="">
+          </div>
+        </div>
+        <div style="padding:12px;background:var(--off-white);border-radius:var(--radius-sm);margin-bottom:16px;">
+          <p style="font-size:13px;color:var(--text-light);margin:0;"><strong style="color:var(--deep-blue);">Location:</strong> We will detect your location automatically when you allow location access. This helps patients find you in emergency searches.</p>
+        </div>
+        <button class="btn btn-green" onclick="hospitalSignup()">Create Hospital Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== WORKER AUTH ==================== -->
+<div class="screen" id="screenWorkerAuth">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <button class="app-header-btn" onclick="showScreen('screenRoleSelect')"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <h1>Health Worker</h1><div style="width:36px;"></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="tabs">
+      <button class="tab active" onclick="showWorkerTab('login')">Log In</button>
+      <button class="tab" onclick="showWorkerTab('signup')">Sign Up</button>
+    </div>
+    <div id="workerLoginForm">
+      <div class="card">
+        <div class="form-group"><label>Email</label><input type="email" id="workLoginEmail" placeholder="you@email.com"></div>
+        <div class="form-group"><label>Password</label><div class="password-wrap"><input type="password" id="workLoginPassword" placeholder="Your password"><button type="button" class="password-toggle" onclick="togglePassword('workLoginPassword', this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        <button class="btn btn-primary" onclick="workerLogin()">Log In</button>
+        <p style="text-align:center;margin-top:16px;font-size:13px;"><a href="#" onclick="showForgotPassword('worker');return false;" style="color:var(--deep-blue);">Forgot password?</a></p>
+      </div>
+    </div>
+    <div id="workerSignupForm" style="display:none;">
+      <div class="card">
+        <div class="form-group"><label>Full Name *</label><input type="text" id="workSignupName" placeholder="Dr. John Doe"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Email *</label><input type="email" id="workSignupEmail" placeholder="you@email.com"></div>
+          <div class="form-group"><label>Phone *</label><input type="tel" id="workSignupPhone" placeholder="+234..."></div>
+        </div>
+        <div class="form-group"><label>Password *</label><div class="password-wrap"><input type="password" id="workSignupPassword" placeholder="Min 6 characters"><button type="button" class="password-toggle" onclick="togglePassword('workSignupPassword', this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        <div class="form-group"><label>Confirm Password *</label><div class="password-wrap"><input type="password" id="workSignupConfirmPassword" placeholder="Re-enter password"><button type="button" class="password-toggle" onclick="togglePassword('workSignupConfirmPassword', this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        <div class="form-group"><label>Medical License Number *</label><input type="text" id="workSignupLicense" placeholder="Your license number"></div>
+        <div class="form-group"><label>Profession *</label>
+          <select id="workSignupProfession"><option value="">Select profession</option><option value="doctor">Doctor</option><option value="nurse">Nurse</option><option value="pharmacist">Pharmacist</option><option value="lab_technician">Lab Technician</option><option value="midwife">Midwife</option><option value="dentist">Dentist</option><option value="optometrist">Optometrist</option><option value="physiotherapist">Physiotherapist</option><option value="other">Other</option></select>
+        </div>
+        <div class="form-group"><label>Full Address *</label><textarea id="workSignupAddress" rows="2" placeholder="Street, City, State"></textarea></div>
+        <div class="form-group"><label>Website</label><input type="text" id="workSignupWebsite" placeholder="https://... (optional)"></div>
+        <div class="form-group"><label>Google Maps Link</label><input type="text" id="workSignupMapLink" placeholder="https://maps.google.com/... (optional)"></div>
+        <div class="form-group"><label>Office Hours</label>
+          <div class="hours-grid">
+            <label>Mon</label><input type="time" id="workHours_mon_open" value="08:00"><input type="time" id="workHours_mon_close" value="18:00">
+            <label>Tue</label><input type="time" id="workHours_tue_open" value="08:00"><input type="time" id="workHours_tue_close" value="18:00">
+            <label>Wed</label><input type="time" id="workHours_wed_open" value="08:00"><input type="time" id="workHours_wed_close" value="18:00">
+            <label>Thu</label><input type="time" id="workHours_thu_open" value="08:00"><input type="time" id="workHours_thu_close" value="18:00">
+            <label>Fri</label><input type="time" id="workHours_fri_open" value="08:00"><input type="time" id="workHours_fri_close" value="18:00">
+            <label>Sat</label><input type="time" id="workHours_sat_open" value="09:00"><input type="time" id="workHours_sat_close" value="14:00">
+            <label>Sun</label><input type="time" id="workHours_sun_open" value=""><input type="time" id="workHours_sun_close" value="">
+          </div>
+        </div>
+        <div style="padding:12px;background:var(--off-white);border-radius:var(--radius-sm);margin-bottom:16px;">
+          <p style="font-size:13px;color:var(--text-light);margin:0;"><strong style="color:var(--deep-blue);">Location:</strong> We will detect your location automatically when you allow location access. This helps patients find you in emergency searches.</p>
+        </div>
+        <button class="btn btn-green" onclick="workerSignup()">Create Worker Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATIENT AUTH ==================== -->
+<div class="screen" id="screenPatientAuth">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <button class="app-header-btn" onclick="showScreen('screenRoleSelect')"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <h1>Patient Access</h1><div style="width:36px;"></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card" style="text-align:center;padding:32px 24px;">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="var(--deep-blue)" style="margin-bottom:16px;opacity:0.3;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+      <h2 style="font-size:20px;font-weight:700;margin-bottom:8px;">Access Your Records</h2>
+      <p style="font-size:14px;color:var(--text-light);margin-bottom:24px;">Enter your NIN to receive a one-time password. No account creation needed.</p>
+      <div class="form-group"><label>National ID Number (NIN)</label><input type="text" id="patLoginNIN" placeholder="Enter 11-digit NIN" maxlength="11"></div>
+      <button class="btn btn-primary" onclick="patientLogin()">Request OTP</button>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:16px;">Your NIN is hashed and never stored in plain text. NDPR compliant.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATIENT OTP ==================== -->
+<div class="screen" id="screenPatientOTP">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <button class="app-header-btn" onclick="showScreen('screenPatientAuth')"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <h1>Verify OTP</h1><div style="width:36px;"></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card" style="text-align:center;padding:32px 24px;">
+      <p style="font-size:14px;color:var(--text-light);margin-bottom:8px;">Enter the OTP sent to your registered contact</p>
+      <p style="font-size:16px;font-weight:700;color:var(--deep-blue);margin-bottom:24px;">NIN: <span id="patientNINDisplay"></span></p>
+      <div class="form-group"><label>One-Time Password</label><input type="text" id="patOTPCode" placeholder="Enter 6-digit OTP" maxlength="6" style="text-align:center;font-size:24px;letter-spacing:8px;"></div>
+      <button class="btn btn-primary" onclick="patientVerifyOTP()">Verify &amp; Access Records</button>
+      <p style="font-size:13px;color:var(--text-light);margin-top:16px;">Did not receive? <a href="#" onclick="patientLogin();return false;" style="color:var(--deep-blue);">Resend OTP</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== HOSPITAL DASHBOARD ==================== -->
+<div class="screen" id="screenHospitalDashboard">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <h1 id="hospDashName">Hospital</h1>
+      <button class="app-header-btn" onclick="logout()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="container">
+    <!-- Profile View -->
+    <div id="hospitalProfileView">
+      <div class="profile-header">
+        <div class="profile-avatar" style="font-size:32px;">🏥</div>
+        <div class="profile-name" id="hospProfileName">Hospital</div>
+        <div class="profile-role">Hospital Account</div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div class="card-title">Hospital Details</div>
+          <button class="btn btn-outline btn-sm" onclick="showHospitalEdit()">Edit</button>
+        </div>
+        <div id="hospProfileDetails"></div>
+      </div>
+    </div>
+    <!-- Profile Edit -->
+    <div id="hospitalProfileEdit" style="display:none;">
+      <div class="card">
+        <div class="card-title">Edit Hospital Profile</div>
+        <div class="form-group"><label>Hospital Name</label><input type="text" id="editHospName"></div>
+        <div class="form-group"><label>Contact Email</label><input type="email" id="editHospEmail"></div>
+        <div class="form-group"><label>Contact Phone</label><input type="tel" id="editHospPhone"></div>
+        <div class="form-group"><label>Address</label><textarea id="editHospAddress" rows="2"></textarea></div>
+        <div class="form-group"><label>Website</label><input type="text" id="editHospWebsite"></div>
+        <div class="form-group"><label>Google Maps Link</label><input type="text" id="editHospMapLink"></div>
+        <div class="form-group"><label>Office Hours</label>
+          <div class="hours-grid">
+            <label>Mon</label><input type="time" id="editHosp_mon_open"><input type="time" id="editHosp_mon_close">
+            <label>Tue</label><input type="time" id="editHosp_tue_open"><input type="time" id="editHosp_tue_close">
+            <label>Wed</label><input type="time" id="editHosp_wed_open"><input type="time" id="editHosp_wed_close">
+            <label>Thu</label><input type="time" id="editHosp_thu_open"><input type="time" id="editHosp_thu_close">
+            <label>Fri</label><input type="time" id="editHosp_fri_open"><input type="time" id="editHosp_fri_close">
+            <label>Sat</label><input type="time" id="editHosp_sat_open"><input type="time" id="editHosp_sat_close">
+            <label>Sun</label><input type="time" id="editHosp_sun_open"><input type="time" id="editHosp_sun_close">
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-green" onclick="saveHospitalProfile()">Save Changes</button>
+          <button class="btn btn-outline" onclick="cancelHospitalEdit()">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num" id="hospStatPatients">-</div><div class="stat-label">Patients</div></div>
+      <div class="stat-card"><div class="stat-num" id="hospStatRemarks">-</div><div class="stat-label">Remarks</div></div>
+      <div class="stat-card"><div class="stat-num" id="hospStatStatus">Active</div><div class="stat-label">Status</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Quick Actions</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+        <button class="btn btn-green" onclick="showScreen('screenAddPatient')">+ New Patient</button>
+        <button class="btn btn-outline" onclick="showScreen('screenHospitalSearch')">Search Records</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Update Location</div>
+      <p style="font-size:13px;color:var(--text-light);margin-bottom:12px;">Keep your location current so patients can find you in emergency searches.</p>
+      <button class="btn btn-primary" onclick="updateLocation()">Detect My Location</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== HOSPITAL SEARCH ==================== -->
+<div class="screen" id="screenHospitalSearch">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <button class="app-header-btn" onclick="showScreen('screenHospitalDashboard')"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <h1>Search Patient</h1><div style="width:36px;"></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="search-bar">
+      <input type="text" id="hospSearchNIN" placeholder="Enter patient NIN (11 digits)" maxlength="11">
+      <button onclick="hospitalSearchPatient()">Search</button>
+    </div>
+    <div id="hospSearchResults"></div>
+  </div>
+</div>
+
+<!-- ==================== ADD PATIENT ==================== -->
+<div class="screen" id="screenAddPatient">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <button class="app-header-btn" onclick="showScreen('screenHospitalDashboard')"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <h1>New Patient</h1><div style="width:36px;"></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <div class="form-group"><label>NIN *</label><input type="text" id="newPatNIN" placeholder="11-digit NIN" maxlength="11"></div>
+      <div class="form-group"><label>Full Name *</label><input type="text" id="newPatName" placeholder="Patient full name"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Date of Birth *</label><input type="date" id="newPatDOB"></div>
+        <div class="form-group"><label>Gender *</label><select id="newPatGender"><option value="">Select</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></div>
+      </div>
+      <div class="form-group"><label>Phone *</label><input type="tel" id="newPatPhone" placeholder="+234..."></div>
+      <div class="form-group"><label>Email</label><input type="email" id="newPatEmail" placeholder="patient@email.com (optional)"></div>
+      <div class="form-group"><label>Address *</label><textarea id="newPatAddress" rows="2" placeholder="Full address"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Blood Type</label><select id="newPatBlood"><option value="">Unknown</option><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="AB+">AB+</option><option value="AB-">AB-</option><option value="O+">O+</option><option value="O-">O-</option></select></div>
+        <div class="form-group"><label>Height</label><input type="text" id="newPatHeight" placeholder="e.g. 170cm"></div>
+      </div>
+      <div class="form-group"><label>Weight</label><input type="text" id="newPatWeight" placeholder="e.g. 70kg"></div>
+      <button class="btn btn-green" onclick="savePatient()">Save Patient Record</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ADD REMARK ==================== -->
+<div class="screen" id="screenAddRemark">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <button class="app-header-btn" onclick="showScreen('screenHospitalDashboard')"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <h1>Add Remark</h1><div style="width:36px;"></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <input type="hidden" id="remarkPatNIN">
+      <div class="form-group"><label>Subject *</label><input type="text" id="remarkSubject" placeholder="e.g. Follow-up consultation, Diagnosis"></div>
+      <div class="form-group"><label>Doctor / Staff Name *</label><input type="text" id="remarkDoctorName" placeholder="Attending doctor's name"></div>
+      <div class="form-group"><label>Date *</label><input type="date" id="remarkDate"></div>
+      <div class="form-group"><label>Clinical Remark *</label><textarea id="remarkText" rows="6" placeholder="Enter your clinical observation, diagnosis, or treatment notes..."></textarea></div>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">Remarks are append-only and cannot be deleted. All entries are timestamped and attributed.</p>
+      <button class="btn btn-green" onclick="saveRemark()">Save Remark</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== WORKER DASHBOARD ==================== -->
+<div class="screen" id="screenWorkerDashboard">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <h1 id="workDashName">Health Worker</h1>
+      <button class="app-header-btn" onclick="logout()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="container">
+    <!-- Profile View -->
+    <div id="workerProfileView">
+      <div class="profile-header">
+        <div class="profile-avatar" style="font-size:32px;">👨‍⚕️</div>
+        <div class="profile-name" id="workProfileName">Health Worker</div>
+        <div class="profile-role" id="workProfileRole">Verified Health Worker</div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div class="card-title">Professional Details</div>
+          <button class="btn btn-outline btn-sm" onclick="showWorkerEdit()">Edit</button>
+        </div>
+        <div id="workProfileDetails"></div>
+      </div>
+    </div>
+    <!-- Profile Edit -->
+    <div id="workerProfileEdit" style="display:none;">
+      <div class="card">
+        <div class="card-title">Edit Worker Profile</div>
+        <div class="form-group"><label>Full Name</label><input type="text" id="editWorkName"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="editWorkEmail"></div>
+        <div class="form-group"><label>Phone</label><input type="tel" id="editWorkPhone"></div>
+        <div class="form-group"><label>Profession</label>
+          <select id="editWorkProfession"><option value="doctor">Doctor</option><option value="nurse">Nurse</option><option value="pharmacist">Pharmacist</option><option value="lab_technician">Lab Technician</option><option value="midwife">Midwife</option><option value="dentist">Dentist</option><option value="optometrist">Optometrist</option><option value="physiotherapist">Physiotherapist</option><option value="other">Other</option></select>
+        </div>
+        <div class="form-group"><label>License Number</label><input type="text" id="editWorkLicense"></div>
+        <div class="form-group"><label>Address</label><textarea id="editWorkAddress" rows="2"></textarea></div>
+        <div class="form-group"><label>Website</label><input type="text" id="editWorkWebsite"></div>
+        <div class="form-group"><label>Google Maps Link</label><input type="text" id="editWorkMapLink"></div>
+        <div class="form-group"><label>Office Hours</label>
+          <div class="hours-grid">
+            <label>Mon</label><input type="time" id="editWork_mon_open"><input type="time" id="editWork_mon_close">
+            <label>Tue</label><input type="time" id="editWork_tue_open"><input type="time" id="editWork_tue_close">
+            <label>Wed</label><input type="time" id="editWork_wed_open"><input type="time" id="editWork_wed_close">
+            <label>Thu</label><input type="time" id="editWork_thu_open"><input type="time" id="editWork_thu_close">
+            <label>Fri</label><input type="time" id="editWork_fri_open"><input type="time" id="editWork_fri_close">
+            <label>Sat</label><input type="time" id="editWork_sat_open"><input type="time" id="editWork_sat_close">
+            <label>Sun</label><input type="time" id="editWork_sun_open"><input type="time" id="editWork_sun_close">
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-green" onclick="saveWorkerProfile()">Save Changes</button>
+          <button class="btn btn-outline" onclick="cancelWorkerEdit()">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Search Patient Records</div>
+      <p style="font-size:13px;color:var(--text-light);margin-bottom:12px;">Enter a patient's NIN to view their medical history. Read-only access.</p>
+      <div class="search-bar">
+        <input type="text" id="workSearchNIN" placeholder="Enter patient NIN" maxlength="11">
+        <button onclick="workerSearchPatient()">Search</button>
+      </div>
+      <div id="workSearchResults"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Update Location</div>
+      <p style="font-size:13px;color:var(--text-light);margin-bottom:12px;">Keep your location current so patients can find you in emergency searches.</p>
+      <button class="btn btn-primary" onclick="updateLocation()">Detect My Location</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PATIENT DASHBOARD ==================== -->
+<div class="screen" id="screenPatientDashboard">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <h1>My Health Records</h1>
+      <button class="app-header-btn" onclick="logout()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="container">
+    <div id="patientProfileView">
+      <div class="profile-header">
+        <div class="profile-avatar" style="font-size:32px;">🧑</div>
+        <div class="profile-name" id="patProfileName">Patient</div>
+        <div class="profile-role">Patient Account</div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div class="card-title">My Details</div>
+          <button class="btn btn-outline btn-sm" onclick="showPatientEdit()">Edit Contact</button>
+        </div>
+        <div id="patProfileDetails"></div>
+      </div>
+    </div>
+    <div id="patientProfileEdit" style="display:none;">
+      <div class="card">
+        <div class="card-title">Edit Contact Information</div>
+        <p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">An OTP will be sent to your registered email for verification.</p>
+        <div class="form-group"><label>Phone</label><input type="tel" id="editPatPhone"></div>
+        <div class="form-group"><label>Address</label><textarea id="editPatAddress" rows="2"></textarea></div>
+        <div class="form-group"><label>Email</label><input type="email" id="editPatEmail"></div>
+        <button class="btn btn-primary" onclick="requestPatientContactOTP()">Request OTP</button>
+      </div>
+    </div>
+    <div id="patientOTPEdit" style="display:none;">
+      <div class="card">
+        <div class="card-title">Verify OTP</div>
+        <p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Enter the OTP sent to your registered email.</p>
+        <div class="form-group"><label>OTP Code</label><input type="text" id="patContactOTP" placeholder="000000" maxlength="6" style="text-align:center;font-size:24px;letter-spacing:8px;"></div>
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-green" onclick="savePatientContact()">Verify & Save</button>
+          <button class="btn btn-outline" onclick="cancelPatientEdit()">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div id="patientRecordsContent"></div>
+  </div>
+</div>
+
+<!-- ==================== FIND CARE ==================== -->
+<div class="screen" id="screenFindCare">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <button class="app-header-btn" onclick="showScreen('screenRoleSelect')"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <h1>Find Care</h1><div style="width:36px;"></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <div class="form-group"><label>Search Radius (km)</label>
+        <select id="findCareRadius"><option value="5">5 km</option><option value="10">10 km</option><option value="25">25 km</option><option value="50" selected>50 km</option><option value="100">100 km</option></select>
+      </div>
+      <div class="form-group"><label>Provider Type</label>
+        <select id="findCareType"><option value="all">All Providers</option><option value="hospital">Hospitals Only</option><option value="worker">Health Workers Only</option></select>
+      </div>
+      <div class="form-group"><label>Profession Filter</label>
+        <select id="findCareProfession"><option value="all">All Professions</option><option value="doctor">Doctor</option><option value="nurse">Nurse</option><option value="pharmacist">Pharmacist</option><option value="lab_technician">Lab Technician</option><option value="midwife">Midwife</option><option value="dentist">Dentist</option><option value="optometrist">Optometrist</option><option value="physiotherapist">Physiotherapist</option></select>
+      </div>
+      <input type="hidden" id="findCareLat"><input type="hidden" id="findCareLon">
+      <button class="btn btn-primary" onclick="searchFindCare()">Search Near Me</button>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:12px;">Uses your current location. Make sure location services are enabled.</p>
+    </div>
+    <div id="findCareResults"></div>
+  </div>
+</div>
+
+<!-- ==================== FORGOT PASSWORD ==================== -->
+<div class="screen" id="screenForgotPassword">
+  <div class="app-header">
+    <div class="app-header-inner">
+      <button class="app-header-btn" onclick="showScreen('screenRoleSelect')"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+      <h1>Reset Password</h1><div style="width:36px;"></div>
+    </div>
+  </div>
+  <div class="container">
+    <input type="hidden" id="fpRole">
+    <div class="card" id="fpStep1">
+      <div class="form-group"><label>Username or Email</label><input type="text" id="fpIdentifier" placeholder="Enter your username or email"></div>
+      <button class="btn btn-primary" onclick="sendResetOTP()">Send OTP</button>
+    </div>
+    <div class="card" id="fpStep2" style="display:none;">
+      <div class="form-group"><label>OTP Code</label><input type="text" id="fpOTP" placeholder="Enter OTP" maxlength="6"></div>
+      <div class="form-group"><label>New Password</label><div class="password-wrap"><input type="password" id="fpNewPassword" placeholder="Min 6 characters"><button type="button" class="password-toggle" onclick="togglePassword('fpNewPassword', this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+      <button class="btn btn-green" onclick="resetPassword()">Reset Password</button>
+    </div>
+  </div>
+</div>
+
+<button class="fab-chat" id="fabChat" onclick="openChatbot()" aria-label="Help Desk">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+</button>
+
+<script>
+const API_BASE = 'https://emmanuel154-thrivelink-api.hf.space';
+let currentToken = null, currentRole = null, currentUser = null;
+let pendingPatientNIN = null;
+
+const EYE_ICON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7.5 11-7.5S23 12 23 12s-4 7.5-11 7.5S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+const EYE_OFF_ICON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19.5C5 19.5 1 12 1 12a19.77 19.77 0 0 1 4.22-5.5M9.9 4.66A10.8 10.8 0 0 1 12 4.5c7 0 11 7.5 11 7.5a19.7 19.7 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+
+function $(id) { return document.getElementById(id); }
+
+function togglePassword(id, btn) {
+  const input = $(id); if (!input) return;
+  if (input.type === 'password') { input.type = 'text'; btn.innerHTML = EYE_OFF_ICON; btn.setAttribute('aria-label', 'Hide password'); }
+  else { input.type = 'password'; btn.innerHTML = EYE_ICON; btn.setAttribute('aria-label', 'Show password'); }
+}
+
+function showToast(message, type) {
+  type = type || 'info';
+  const container = $('toastContainer'); if (!container) return;
+  const toast = document.createElement('div'); toast.className = 'toast ' + type;
+  const icons = { success: '✓', error: '✕', info: 'ℹ' };
+  toast.innerHTML = '<span style="font-weight:800;margin-right:8px;">' + icons[type] + '</span><span>' + message + '</span>';
+  container.appendChild(toast);
+  setTimeout(function() { toast.style.opacity='0'; setTimeout(function(){toast.remove()},300); }, 4000);
+}
+
+function validateNIN(nin) { return /^\d{11}$/.test((nin || '').replace(/\s/g,'')); }
+function formatNIN(nin) { return (nin || '').replace(/\s/g,''); }
+
+function getAuthHeaders() {
+  return { 'Content-Type': 'application/json', 'Authorization': currentToken ? 'Bearer ' + currentToken : '' };
+}
+
+async function apiCall(method, endpoint, body) {
+  const opts = { method: method, headers: getAuthHeaders() };
+  if (body) opts.body = JSON.stringify(body);
+  try {
+    const res = await fetch(API_BASE + endpoint, opts);
+    const data = await res.json().catch(function() { return null; });
+    if (!res.ok) throw new Error((data && data.detail) || (data && data.message) || 'Error ' + res.status);
+    return data;
+  } catch (e) {
+    if (e.message.includes('Failed to fetch')) throw new Error('Network error. Please check your connection.');
+    throw e;
+  }
+}
+
+function saveAuth(token, role, user) {
+  currentToken = token; currentRole = role; currentUser = user;
+  localStorage.setItem('thrivelink_auth', JSON.stringify({ token: token, role: role, user: user, timestamp: Date.now() }));
+}
+
+function checkAuth() {
+  const stored = localStorage.getItem('thrivelink_auth');
+  if (stored) { try { const a = JSON.parse(stored); currentToken = a.token; currentRole = a.role; currentUser = a.user; return true; } catch(e) { localStorage.removeItem('thrivelink_auth'); } }
+  return false;
+}
+
+function logout() { currentToken = null; currentRole = null; currentUser = null; localStorage.removeItem('thrivelink_auth'); showScreen('screenRoleSelect'); showToast('Logged out successfully', 'success'); }
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+  const t = $(id); if (t) t.classList.add('active');
+  window.scrollTo(0,0);
+  const fab = $('fabChat'); if (fab) fab.style.display = (id === 'screenChatbot') ? 'none' : 'flex';
+}
+
+function selectRole(role) {
+  document.querySelectorAll('.role-card').forEach(function(c) { c.classList.remove('selected'); });
+  if (event && event.currentTarget) event.currentTarget.classList.add('selected');
+  if (role === 'findcare') { showScreen('screenFindCare'); initFindCare(); return; }
+  setTimeout(function() {
+    if (role === 'hospital') showScreen('screenHospitalAuth');
+    else if (role === 'worker') showScreen('screenWorkerAuth');
+    else if (role === 'patient') showScreen('screenPatientAuth');
+  }, 200);
+}
+
+function showHospitalTab(tab) {
+  $('hospitalLoginForm').style.display = tab === 'login' ? 'block' : 'none';
+  $('hospitalSignupForm').style.display = tab === 'signup' ? 'block' : 'none';
+  var tabs = document.querySelectorAll('#screenHospitalAuth .tab');
+  tabs.forEach(function(t) { t.classList.remove('active'); });
+  if (tab === 'login' && tabs[0]) tabs[0].classList.add('active');
+  if (tab === 'signup' && tabs[1]) tabs[1].classList.add('active');
+}
+
+function showWorkerTab(tab) {
+  $('workerLoginForm').style.display = tab === 'login' ? 'block' : 'none';
+  $('workerSignupForm').style.display = tab === 'signup' ? 'block' : 'none';
+  var tabs = document.querySelectorAll('#screenWorkerAuth .tab');
+  tabs.forEach(function(t) { t.classList.remove('active'); });
+  if (tab === 'login' && tabs[0]) tabs[0].classList.add('active');
+  if (tab === 'signup' && tabs[1]) tabs[1].classList.add('active');
+}
+
+function getHours(prefix) {
+  const hours = {};
+  ['mon','tue','wed','thu','fri','sat','sun'].forEach(function(day) {
+    const openEl = $(prefix + day + '_open');
+    const closeEl = $(prefix + day + '_close');
+    if (openEl && closeEl && openEl.value && closeEl.value) hours[day] = { open: openEl.value, close: closeEl.value };
+  });
+  return Object.keys(hours).length > 0 ? hours : null;
+}
+
+function setHours(prefix, hours) {
+  if (!hours) return;
+  ['mon','tue','wed','thu','fri','sat','sun'].forEach(function(day) {
+    const h = hours[day];
+    const openEl = $(prefix + day + '_open');
+    const closeEl = $(prefix + day + '_close');
+    if (openEl && h && h.open) openEl.value = h.open;
+    if (closeEl && h && h.close) closeEl.value = h.close;
+  });
+}
+
+function autoDetectLocation() {
+  if (!navigator.geolocation) { showToast('Geolocation not supported', 'info'); return; }
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      if (currentToken && currentRole) {
+        updateEntityLocation(pos.coords.latitude, pos.coords.longitude)
+          .then(function() { showToast('Location detected and saved!', 'success'); })
+          .catch(function(e) { showToast('Location saved locally. Will sync later.', 'info'); });
+      }
+    },
+    function(err) { showToast('Location access denied. You can update it later from your profile.', 'info'); },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+  );
+}
+
+function updateEntityLocation(lat, lon) {
+  if (currentRole === 'hospital') return apiCall('POST', '/hospitals/location/update', { latitude: lat, longitude: lon, location_link: null });
+  return apiCall('POST', '/workers/location/update', { latitude: lat, longitude: lon, address: null });
+}
+
+function escapeHtml(text) { if (!text) return ''; const d = document.createElement('div'); d.textContent = text; return d.innerHTML; }
+
+function renderInfoRow(label, value) { return '<div class="info-row"><span class="info-label">' + escapeHtml(label) + '</span><span class="info-value">' + escapeHtml(value || 'N/A') + '</span></div>'; }
+
+// === HOSPITAL AUTH ===
+function hospitalLogin() {
+  const username = $('hospLoginUsername').value.trim();
+  const password = $('hospLoginPassword').value;
+  if (!username || !password) { showToast('Please fill all fields', 'error'); return; }
+  apiCall('POST', '/hospitals/login', { admin_username: username, password: password })
+    .then(function(data) {
+      saveAuth(data.access_token, 'hospital', { name: data.name, entity_id: data.entity_id });
+      showToast('Welcome, ' + data.name + '!', 'success');
+      loadHospitalDashboard();
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+function hospitalSignup() {
+  const name = $('hospSignupName').value.trim();
+  const username = $('hospSignupUsername').value.trim();
+  const email = $('hospSignupEmail').value.trim();
+  const phone = $('hospSignupPhone').value.trim();
+  const password = $('hospSignupPassword').value;
+  const confirmPassword = $('hospSignupConfirmPassword').value;
+  const address = $('hospSignupAddress').value.trim();
+  const website = $('hospSignupWebsite').value.trim() || null;
+  const location_link = $('hospSignupMapLink').value.trim() || null;
+
+  if (!name || !username || !email || !phone || !password || !address) { showToast('Please fill all required fields', 'error'); return; }
+  if (password !== confirmPassword) { showToast('Passwords do not match', 'error'); return; }
+  if (password.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+
+  const data = { name: name, admin_username: username, contact_email: email, contact_phone: phone, password: password, confirm_password: confirmPassword, address: address, office_hours: getHours('hospHours_'), website: website, location_link: location_link };
+
+  apiCall('POST', '/hospitals/signup', data)
+    .then(function() {
+      showToast('Hospital registered! Please log in.', 'success');
+      autoDetectLocation();
+      showHospitalTab('login');
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+// === WORKER AUTH ===
+function workerLogin() {
+  const email = $('workLoginEmail').value.trim();
+  const password = $('workLoginPassword').value;
+  if (!email || !password) { showToast('Please fill all fields', 'error'); return; }
+  apiCall('POST', '/workers/login', { email: email, password: password })
+    .then(function(data) {
+      saveAuth(data.access_token, 'worker', { name: data.name, entity_id: data.entity_id });
+      showToast('Welcome, ' + data.name + '!', 'success');
+      loadWorkerDashboard();
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+function workerSignup() {
+  const name = $('workSignupName').value.trim();
+  const email = $('workSignupEmail').value.trim();
+  const phone = $('workSignupPhone').value.trim();
+  const password = $('workSignupPassword').value;
+  const confirmPassword = $('workSignupConfirmPassword').value;
+  const license = $('workSignupLicense').value.trim();
+  const profession = $('workSignupProfession').value;
+  const address = $('workSignupAddress').value.trim();
+  const website = $('workSignupWebsite').value.trim() || null;
+  const location_link = $('workSignupMapLink').value.trim() || null;
+
+  if (!name || !email || !phone || !password || !confirmPassword || !license || !profession || !address) { showToast('Please fill all required fields', 'error'); return; }
+  if (password !== confirmPassword) { showToast('Passwords do not match', 'error'); return; }
+  if (password.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+
+  const data = { name: name, email: email, phone: phone, password: password, confirm_password: confirmPassword, license_number: license, profession: profession, address: address, office_hours: getHours('workHours_'), website: website, location_link: location_link };
+
+  apiCall('POST', '/workers/signup', data)
+    .then(function() {
+      showToast('Worker registered! Please log in.', 'success');
+      autoDetectLocation();
+      showWorkerTab('login');
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+// === PATIENT AUTH ===
+function patientLogin() {
+  const nin = $('patLoginNIN').value.trim();
+  if (!validateNIN(nin)) { showToast('Please enter a valid 11-digit NIN', 'error'); return; }
+  apiCall('POST', '/patients/otp/request', { nin: formatNIN(nin) })
+    .then(function() {
+      pendingPatientNIN = formatNIN(nin);
+      $('patientNINDisplay').textContent = nin;
+      showScreen('screenPatientOTP');
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+function patientVerifyOTP() {
+  const otp = $('patOTPCode').value.trim();
+  if (!otp) { showToast('Please enter OTP', 'error'); return; }
+  apiCall('POST', '/patients/otp/verify', { nin: pendingPatientNIN, otp: otp })
+    .then(function(data) {
+      saveAuth(data.access_token, 'patient', { nin: pendingPatientNIN, name: data.name });
+      showToast('Welcome! Your records are secure.', 'success');
+      loadPatientDashboard();
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+// === HOSPITAL DASHBOARD ===
+function loadHospitalDashboard() {
+  showScreen('screenHospitalDashboard');
+  $('hospDashName').textContent = currentUser && currentUser.name ? currentUser.name : 'Hospital';
+  apiCall('GET', '/hospitals/me')
+    .then(function(profile) {
+      currentUser = Object.assign(currentUser || {}, profile);
+      saveAuth(currentToken, currentRole, currentUser);
+      renderHospitalProfile(currentUser);
+      // Stats
+      apiCall('GET', '/hospitals/patients').then(function(patients) {
+        $('hospStatPatients').textContent = patients.length || 0;
+        let totalRemarks = 0;
+        patients.forEach(function(p) { totalRemarks += (p.remarks || []).length; });
+        $('hospStatRemarks').textContent = totalRemarks;
+      }).catch(function() {});
+    })
+    .catch(function() { renderHospitalProfile(currentUser || {}); });
+}
+
+function renderHospitalProfile(profile) {
+  $('hospProfileName').textContent = profile.name || 'Hospital';
+  const html = renderInfoRow('Email', profile.contact_email || profile.email) +
+    renderInfoRow('Phone', profile.contact_phone || profile.phone) +
+    renderInfoRow('Address', profile.address) +
+    renderInfoRow('Website', profile.website) +
+    renderInfoRow('Maps Link', profile.location_link) +
+    renderInfoRow('Office Hours', formatHours(profile.office_hours));
+  $('hospProfileDetails').innerHTML = html;
+}
+
+function showHospitalEdit() {
+  const p = currentUser || {};
+  $('editHospName').value = p.name || '';
+  $('editHospEmail').value = p.contact_email || p.email || '';
+  $('editHospPhone').value = p.contact_phone || p.phone || '';
+  $('editHospAddress').value = p.address || '';
+  $('editHospWebsite').value = p.website || '';
+  $('editHospMapLink').value = p.location_link || '';
+  setHours('editHosp_', p.office_hours);
+  $('hospitalProfileView').style.display = 'none';
+  $('hospitalProfileEdit').style.display = 'block';
+}
+
+function cancelHospitalEdit() {
+  $('hospitalProfileView').style.display = 'block';
+  $('hospitalProfileEdit').style.display = 'none';
+}
+
+function saveHospitalProfile() {
+  const data = {
+    name: $('editHospName').value.trim() || undefined,
+    contact_email: $('editHospEmail').value.trim() || undefined,
+    contact_phone: $('editHospPhone').value.trim() || undefined,
+    address: $('editHospAddress').value.trim() || undefined,
+    website: $('editHospWebsite').value.trim() || undefined,
+    location_link: $('editHospMapLink').value.trim() || undefined,
+    office_hours: getHours('editHosp_')
+  };
+  // Remove undefined values
+  Object.keys(data).forEach(function(k) { if (data[k] === undefined) delete data[k]; });
+
+  apiCall('PUT', '/hospitals/me', data)
+    .then(function(profile) {
+      currentUser = Object.assign(currentUser || {}, profile);
+      saveAuth(currentToken, currentRole, currentUser);
+      renderHospitalProfile(currentUser);
+      cancelHospitalEdit();
+      showToast('Profile updated!', 'success');
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+function hospitalSearchPatient() {
+  const nin = $('hospSearchNIN').value.trim();
+  if (!validateNIN(nin)) { showToast('Please enter a valid 11-digit NIN', 'error'); return; }
+  $('hospSearchResults').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  apiCall('GET', '/hospitals/patients/' + formatNIN(nin) + '/full')
+    .then(function(data) { renderPatientFull(data, 'hospSearchResults', true); })
+    .catch(function(e) { $('hospSearchResults').innerHTML = '<div class="empty-state"><h3>No patient found</h3><p>' + escapeHtml(e.message) + '</p></div>'; });
+}
+
+function savePatient() {
+  const nin = $('newPatNIN').value.trim();
+  const name = $('newPatName').value.trim();
+  const dob = $('newPatDOB').value;
+  const gender = $('newPatGender').value;
+  const phone = $('newPatPhone').value.trim();
+  const email = $('newPatEmail').value.trim() || null;
+  const address = $('newPatAddress').value.trim();
+  const blood = $('newPatBlood').value || null;
+  const height = $('newPatHeight').value.trim() || null;
+  const weight = $('newPatWeight').value.trim() || null;
+
+  if (!validateNIN(nin)) { showToast('Please enter a valid 11-digit NIN', 'error'); return; }
+  if (!name || !dob || !gender || !phone || !address) { showToast('Please fill all required fields', 'error'); return; }
+
+  apiCall('POST', '/hospitals/patients', { nin: formatNIN(nin), full_name: name, date_of_birth: dob, sex: gender, phone: phone, email: email, address: address, blood_group: blood, height: height, weight: weight })
+    .then(function() {
+      showToast('Patient record created!', 'success');
+      $('newPatNIN').value = ''; $('newPatName').value = ''; $('newPatDOB').value = ''; $('newPatGender').value = '';
+      $('newPatPhone').value = ''; $('newPatEmail').value = ''; $('newPatAddress').value = '';
+      $('newPatBlood').value = ''; $('newPatHeight').value = ''; $('newPatWeight').value = '';
+      showScreen('screenHospitalDashboard');
+      loadHospitalDashboard();
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+function showAddRemark(nin) {
+  $('remarkPatNIN').value = nin;
+  $('remarkDoctorName').value = (currentUser && currentUser.name) ? currentUser.name : '';
+  $('remarkDate').value = new Date().toISOString().slice(0, 10);
+  showScreen('screenAddRemark');
+}
+
+function saveRemark() {
+  const nin = $('remarkPatNIN').value;
+  const subject = $('remarkSubject').value.trim();
+  const doctorName = $('remarkDoctorName').value.trim();
+  const date = $('remarkDate').value;
+  const text = $('remarkText').value.trim();
+  if (!subject || !doctorName || !date || !text) { showToast('Please fill all required fields', 'error'); return; }
+
+  apiCall('POST', '/hospitals/remarks', { patient_id: nin, subject: subject, full_text: text, doctor_name: doctorName, date: date })
+    .then(function() { showToast('Remark added successfully', 'success'); showScreen('screenHospitalDashboard'); })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+// === WORKER DASHBOARD ===
+function loadWorkerDashboard() {
+  showScreen('screenWorkerDashboard');
+  $('workDashName').textContent = currentUser && currentUser.name ? currentUser.name : 'Health Worker';
+  apiCall('GET', '/workers/me')
+    .then(function(profile) {
+      currentUser = Object.assign(currentUser || {}, profile);
+      saveAuth(currentToken, currentRole, currentUser);
+      renderWorkerProfile(currentUser);
+    })
+    .catch(function() { renderWorkerProfile(currentUser || {}); });
+}
+
+function renderWorkerProfile(profile) {
+  $('workProfileName').textContent = profile.name || 'Health Worker';
+  $('workProfileRole').textContent = profile.profession || 'Verified Health Worker';
+  const html = renderInfoRow('License', profile.license_number) +
+    renderInfoRow('Profession', profile.profession) +
+    renderInfoRow('Email', profile.email) +
+    renderInfoRow('Phone', profile.phone) +
+    renderInfoRow('Address', profile.address) +
+    renderInfoRow('Website', profile.website) +
+    renderInfoRow('Maps Link', profile.location_link) +
+    renderInfoRow('Office Hours', formatHours(profile.office_hours));
+  $('workProfileDetails').innerHTML = html;
+}
+
+function showWorkerEdit() {
+  const p = currentUser || {};
+  $('editWorkName').value = p.name || '';
+  $('editWorkEmail').value = p.email || '';
+  $('editWorkPhone').value = p.phone || '';
+  $('editWorkProfession').value = p.profession || '';
+  $('editWorkLicense').value = p.license_number || '';
+  $('editWorkAddress').value = p.address || '';
+  $('editWorkWebsite').value = p.website || '';
+  $('editWorkMapLink').value = p.location_link || '';
+  setHours('editWork_', p.office_hours);
+  $('workerProfileView').style.display = 'none';
+  $('workerProfileEdit').style.display = 'block';
+}
+
+function cancelWorkerEdit() {
+  $('workerProfileView').style.display = 'block';
+  $('workerProfileEdit').style.display = 'none';
+}
+
+function saveWorkerProfile() {
+  const data = {
+    name: $('editWorkName').value.trim() || undefined,
+    email: $('editWorkEmail').value.trim() || undefined,
+    phone: $('editWorkPhone').value.trim() || undefined,
+    profession: $('editWorkProfession').value || undefined,
+    license_number: $('editWorkLicense').value.trim() || undefined,
+    address: $('editWorkAddress').value.trim() || undefined,
+    website: $('editWorkWebsite').value.trim() || undefined,
+    location_link: $('editWorkMapLink').value.trim() || undefined,
+    office_hours: getHours('editWork_')
+  };
+  Object.keys(data).forEach(function(k) { if (data[k] === undefined) delete data[k]; });
+
+  apiCall('PUT', '/workers/me', data)
+    .then(function(profile) {
+      currentUser = Object.assign(currentUser || {}, profile);
+      saveAuth(currentToken, currentRole, currentUser);
+      renderWorkerProfile(currentUser);
+      cancelWorkerEdit();
+      showToast('Profile updated!', 'success');
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+function workerSearchPatient() {
+  const nin = $('workSearchNIN').value.trim();
+  if (!validateNIN(nin)) { showToast('Please enter a valid 11-digit NIN', 'error'); return; }
+  $('workSearchResults').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  apiCall('GET', '/workers/patients/' + formatNIN(nin))
+    .then(function(data) { renderPatientFull(data, 'workSearchResults', false); })
+    .catch(function(e) { $('workSearchResults').innerHTML = '<div class="empty-state"><h3>No patient found</h3><p>' + escapeHtml(e.message) + '</p></div>'; });
+}
+
+// === PATIENT DASHBOARD ===
+function loadPatientDashboard() {
+  showScreen('screenPatientDashboard');
+  loadPatientRecords();
+}
+
+function loadPatientRecords() {
+  $('patientRecordsContent').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  apiCall('GET', '/patients/me')
+    .then(function(data) {
+      currentUser = Object.assign(currentUser || {}, data);
+      saveAuth(currentToken, currentRole, currentUser);
+      $('patProfileName').textContent = data.full_name || 'Patient';
+      const html = renderInfoRow('NIN', data.patient_id) +
+        renderInfoRow('Date of Birth', data.date_of_birth) +
+        renderInfoRow('Gender', data.sex) +
+        renderInfoRow('Blood Group', data.blood_group) +
+        renderInfoRow('Height', data.height) +
+        renderInfoRow('Weight', data.weight) +
+        renderInfoRow('Phone', data.phone) +
+        renderInfoRow('Email', data.email) +
+        renderInfoRow('Address', data.address) +
+        renderInfoRow('Registered By', data.created_by_hospital_name);
+      $('patProfileDetails').innerHTML = html;
+
+      let remarksHtml = '';
+      if (data.remarks && data.remarks.length > 0) {
+        remarksHtml = '<div class="card"><div class="card-title">Medical Remarks</div>';
+        data.remarks.forEach(function(r) {
+          const remarkDate = r.date || r.created_at;
+          remarksHtml += '<div class="remark-item">' +
+            '<div class="remark-header"><span class="remark-author">' + escapeHtml(r.hospital_name || 'Unknown') + '</span>' +
+            '<span class="remark-date">' + escapeHtml(remarkDate ? new Date(remarkDate).toLocaleDateString() : '') + '</span></div>' +
+            (r.subject ? '<div style="font-size:12px;font-weight:700;color:var(--text-light);margin-bottom:4px;">' + escapeHtml(r.subject) + '</div>' : '') +
+            '<div class="remark-text">' + escapeHtml(r.full_text || '') + '</div>' +
+            '<div style="font-size:12px;color:var(--text-muted);margin-top:8px;">— ' + escapeHtml(r.doctor_name || 'Unknown') + '</div>' +
+            '</div>';
+        });
+        remarksHtml += '</div>';
+      }
+      $('patientRecordsContent').innerHTML = remarksHtml;
+    })
+    .catch(function(e) { $('patientRecordsContent').innerHTML = '<div class="empty-state"><h3>Unable to load records</h3><p>' + escapeHtml(e.message) + '</p></div>'; });
+}
+
+function showPatientEdit() {
+  const p = currentUser || {};
+  $('editPatPhone').value = p.phone || '';
+  $('editPatAddress').value = p.address || '';
+  $('editPatEmail').value = p.email || '';
+  $('patientProfileView').style.display = 'none';
+  $('patientProfileEdit').style.display = 'block';
+  $('patientOTPEdit').style.display = 'none';
+}
+
+function cancelPatientEdit() {
+  $('patientProfileView').style.display = 'block';
+  $('patientProfileEdit').style.display = 'none';
+  $('patientOTPEdit').style.display = 'none';
+}
+
+function requestPatientContactOTP() {
+  apiCall('POST', '/patients/me/contact/request-otp')
+    .then(function() {
+      $('patientProfileEdit').style.display = 'none';
+      $('patientOTPEdit').style.display = 'block';
+      showToast('OTP sent to your email', 'success');
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+function savePatientContact() {
+  const otp = $('patContactOTP').value.trim();
+  if (!otp) { showToast('Please enter OTP', 'error'); return; }
+  const data = {
+    otp: otp,
+    phone: $('editPatPhone').value.trim() || undefined,
+    address: $('editPatAddress').value.trim() || undefined,
+    email: $('editPatEmail').value.trim() || undefined
+  };
+  Object.keys(data).forEach(function(k) { if (data[k] === undefined) delete data[k]; });
+
+  apiCall('POST', '/patients/me/contact', data)
+    .then(function() {
+      showToast('Contact info updated!', 'success');
+      cancelPatientEdit();
+      loadPatientRecords();
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+// === SHARED RENDER ===
+function renderPatientFull(data, containerId, canAddRemark) {
+  const container = $(containerId);
+  let remarksHtml = '';
+  if (data.remarks && data.remarks.length > 0) {
+    remarksHtml = '<h3 style="margin:20px 0 12px;font-size:14px;font-weight:700;color:var(--deep-blue);">Medical Remarks</h3>';
+    data.remarks.forEach(function(r) {
+      const remarkDate = r.date || r.created_at;
+      remarksHtml += '<div class="remark-item">' +
+        '<div class="remark-header"><span class="remark-author">' + escapeHtml(r.hospital_name || 'Unknown') + '</span>' +
+        '<span class="remark-date">' + escapeHtml(remarkDate ? new Date(remarkDate).toLocaleDateString() : '') + '</span></div>' +
+        (r.subject ? '<div style="font-size:12px;font-weight:700;color:var(--text-light);margin-bottom:4px;">' + escapeHtml(r.subject) + '</div>' : '') +
+        '<div class="remark-text">' + escapeHtml(r.full_text || '') + '</div>' +
+        '<div style="font-size:12px;color:var(--text-muted);margin-top:8px;">— ' + escapeHtml(r.doctor_name || 'Unknown') + '</div>' +
+        '</div>';
+    });
+  }
+
+  container.innerHTML = '<div class="card">' +
+    '<div class="card-title">' + escapeHtml(data.full_name || data.name || 'Unknown') + '</div>' +
+    '<div class="card-subtitle">NIN: ***' + escapeHtml(data.patient_id ? data.patient_id.slice(-4) : '****') + '</div>' +
+    '<div style="margin-top:12px;">' +
+    renderInfoRow('DOB', data.date_of_birth) +
+    renderInfoRow('Gender', data.sex || data.gender) +
+    renderInfoRow('Phone', data.phone) +
+    renderInfoRow('Email', data.email) +
+    renderInfoRow('Address', data.address) +
+    renderInfoRow('Blood Type', data.blood_group || data.blood_type) +
+    renderInfoRow('Height', data.height) +
+    renderInfoRow('Weight', data.weight) +
+    renderInfoRow('Registered by', data.created_by_hospital_name) +
+    '</div>' +
+    remarksHtml +
+    (canAddRemark ? '<button class="btn btn-green btn-sm" style="margin-top:16px;" onclick="showAddRemark(\'' + escapeHtml(data.patient_id) + '\')">+ Add Remark</button>' : '') +
+    '</div>';
+}
+
+// === FIND CARE ===
+function initFindCare() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      function(pos) { $('findCareLat').value = pos.coords.latitude; $('findCareLon').value = pos.coords.longitude; },
+      function() { showToast('Location access denied. You can still search manually.', 'info'); }
+    );
+  }
+}
+
+function searchFindCare() {
+  const lat = parseFloat($('findCareLat').value);
+  const lon = parseFloat($('findCareLon').value);
+  const radius = parseInt($('findCareRadius').value) || 50;
+  const type = $('findCareType').value;
+  const profession = $('findCareProfession').value;
+
+  if (isNaN(lat) || isNaN(lon)) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function(pos) { $('findCareLat').value = pos.coords.latitude; $('findCareLon').value = pos.coords.longitude; searchFindCare(); },
+        function() { showToast('Please allow location access to search', 'error'); }
+      );
+    } else { showToast('Geolocation not supported', 'error'); }
+    return;
+  }
+
+  $('findCareResults').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  apiCall('POST', '/emergency/search', { latitude: lat, longitude: lon, max_distance_km: radius, provider_type: type || 'all' })
+    .then(function(data) {
+      let providers = data.providers || [];
+      if (profession && profession !== 'all') providers = providers.filter(function(p) { return p.profession === profession; });
+      renderFindCareResults(providers, lat, lon);
+    })
+    .catch(function(e) { $('findCareResults').innerHTML = '<div class="empty-state"><h3>Search failed</h3><p>' + escapeHtml(e.message) + '</p></div>'; });
+}
+
+function renderFindCareResults(providers, userLat, userLon) {
+  const container = $('findCareResults');
+  if (!providers || providers.length === 0) {
+    container.innerHTML = '<div class="empty-state"><h3>No providers found</h3><p>Try increasing the search radius or changing filters.</p></div>';
+    return;
+  }
+  let html = '<div style="margin-bottom:12px;font-size:13px;color:var(--text-light);">' + providers.length + ' provider(s) found</div>';
+  providers.forEach(function(p) {
+    const isOpen = isCurrentlyOpen(p.office_hours);
+    html += '<div class="result-card">' +
+      '<div class="result-header"><div class="result-name">' + escapeHtml(p.name) + '</div><div class="result-type">' + escapeHtml(p.type || 'Provider') + '</div></div>' +
+      '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Profession:</span> ' + escapeHtml(p.profession || 'Healthcare Provider') + '</div>' +
+      '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Distance:</span> ' + (p.distance_km ? p.distance_km.toFixed(1) : '?') + ' km</div>' +
+      '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Address:</span> ' + escapeHtml(p.address || 'N/A') + '</div>' +
+      '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Phone:</span> ' + escapeHtml(p.phone || 'N/A') + '</div>' +
+      (p.email ? '<div class="result-detail"><span style="color:var(--deep-blue);font-weight:600;">Email:</span> ' + escapeHtml(p.email) + '</div>' : '') +
+      '<div class="result-detail" style="color:' + (isOpen ? 'var(--green)' : 'var(--danger)') + ';">' + (isOpen ? '✓ Open Now' : '✕ Closed') + (p.office_hours ? ' &bull; ' + formatHours(p.office_hours) : '') + '</div>' +
+      '<div class="result-actions">' +
+      (p.phone ? '<a href="tel:' + escapeHtml(p.phone) + '" class="btn btn-green btn-sm">Call</a>' : '') +
+      (p.location_link ? '<a href="' + escapeHtml(p.location_link) + '" target="_blank" class="btn btn-outline btn-sm">Directions</a>' : '') +
+      '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function isCurrentlyOpen(hours) {
+  if (!hours) return false;
+  const days = ['sun','mon','tue','wed','thu','fri','sat'];
+  const now = new Date();
+  const day = days[now.getDay()];
+  const today = hours[day];
+  if (!today || !today.open || !today.close) return false;
+  const curr = now.getHours() * 60 + now.getMinutes();
+  const oh = parseInt(today.open.split(':')[0]); const om = parseInt(today.open.split(':')[1]);
+  const ch = parseInt(today.close.split(':')[0]); const cm = parseInt(today.close.split(':')[1]);
+  return curr >= (oh*60+om) && curr <= (ch*60+cm);
+}
+
+function formatHours(hours) {
+  if (!hours) return '';
+  const days = ['mon','tue','wed','thu','fri','sat','sun'];
+  const today = days[new Date().getDay()];
+  const h = hours[today];
+  return h ? h.open + ' - ' + h.close : '';
+}
+
+// === FORGOT PASSWORD ===
+function showForgotPassword(role) { $('fpRole').value = role; $('fpStep1').style.display = 'block'; $('fpStep2').style.display = 'none'; showScreen('screenForgotPassword'); }
+
+function sendResetOTP() {
+  const role = $('fpRole').value;
+  const identifier = $('fpIdentifier').value.trim();
+  if (!identifier) { showToast('Please enter username or email', 'error'); return; }
+  const endpoint = role === 'hospital' ? '/hospitals/otp/request' : '/workers/otp/request';
+  const body = role === 'hospital' ? { admin_username: identifier } : { email: identifier };
+  apiCall('POST', endpoint, body)
+    .then(function() { $('fpStep1').style.display = 'none'; $('fpStep2').style.display = 'block'; showToast('OTP sent! Check your email.', 'success'); })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+function resetPassword() {
+  const role = $('fpRole').value;
+  const identifier = $('fpIdentifier').value.trim();
+  const otp = $('fpOTP').value.trim();
+  const newPass = $('fpNewPassword').value;
+  if (!otp || !newPass) { showToast('Please fill all fields', 'error'); return; }
+  const endpoint = role === 'hospital' ? '/hospitals/password/reset' : '/workers/password/reset';
+  const body = role === 'hospital' ? { admin_username: identifier, otp: otp, new_password: newPass } : { email: identifier, otp: otp, new_password: newPass };
+  apiCall('POST', endpoint, body)
+    .then(function() { showToast('Password reset successful! Please log in.', 'success'); showScreen(role === 'hospital' ? 'screenHospitalAuth' : 'screenWorkerAuth'); })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+function openChatbot() { window.open('chatbot.html', '_blank'); }
+
+// === INIT ===
+document.addEventListener('DOMContentLoaded', function() {
+  if (checkAuth()) {
+    if (currentRole === 'hospital') loadHospitalDashboard();
+    else if (currentRole === 'worker') loadWorkerDashboard();
+    else if (currentRole === 'patient') loadPatientDashboard();
+  } else {
+    showScreen('screenRoleSelect');
+  }
+});
+</script>
+</body>
+</html>
